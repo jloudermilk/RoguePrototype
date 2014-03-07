@@ -17,7 +17,7 @@ public class TileMap : MonoBehaviour {
 	public float tileSize = 1.0f;
 
 	public int verticesCount = 4;
-
+	public bool randomHeight = false;
 	// Use this for initialization
 	void Start () 
 	{
@@ -44,13 +44,12 @@ public	void BuildMesh()
 			for(x = 0; x< vSizeX;x++){
 				 vertCount = z * vSizeX + x;
 				//we need length of tiles + 1
-				vertices[vertCount] = new Vector3(x*tileSize,0,z*tileSize);
+				vertices[vertCount] = new Vector3(x*tileSize,(randomHeight) ? Random.Range(-1f,1f) : 0,z*tileSize);
 				//all normals point up
 				normals[vertCount] = Vector3.up;
 
 				uv[vertCount] = new Vector2((float)x/vSizeX,(float)z/vSizeZ);
-
-				Debug.Log("Vert"+(z * vSizeX + x)+vertices[z * vSizeX + x]);
+		
 			}
 		}
 
@@ -65,9 +64,6 @@ public	void BuildMesh()
 				triangles[triOffset + 3] = z *vSizeX + x +			0;
 				triangles[triOffset + 5] = z *vSizeX + x + 			1;
 				triangles[triOffset + 4] = z *vSizeX + x + vSizeX + 1;
-
-				Debug.Log("Triangle 1: Point 1: " +triangles[triOffset + 0]+"Point 2: "+triangles[triOffset + 1]+"Point 3: "+triangles[triOffset + 2]);
-				Debug.Log("Triangle 2: Point 1: " +triangles[triOffset + 3]+"Point 2: "+triangles[triOffset + 4]+"Point 3: "+triangles[triOffset + 5]);
 
 			}
 		}
@@ -84,19 +80,12 @@ public	void BuildMesh()
 
 
 
-
-
-
-
-
-
-
-
 		MeshFilter meshFilter = GetComponent<MeshFilter>();
 		MeshRenderer meshRender = GetComponent<MeshRenderer>();
 		MeshCollider meshCollider = GetComponent<MeshCollider>();
-
+		mesh.name = "TileMap";
 		meshFilter.mesh = mesh;
+		meshCollider.sharedMesh = mesh;
 	}
 		
 }

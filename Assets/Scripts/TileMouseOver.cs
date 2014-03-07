@@ -15,11 +15,11 @@ public class TileMouseOver : MonoBehaviour {
 		RaycastHit hitInfo;
 		if(collider.Raycast(ray,out hitInfo,100))
 		   {
-			renderer.material.color = highlightColor;
+			Debug.Log(transform.worldToLocalMatrix *hitInfo.point);
 		}
 		else
 		{
-			renderer.material.color = normalColor;
+			//renderer.material.color = normalColor;
 		}
 
 
