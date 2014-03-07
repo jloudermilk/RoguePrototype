@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+//awesome!
+[ExecuteInEditMode]
+
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshCollider))]
@@ -8,54 +12,67 @@ using System.Collections;
 
 public class TileMap : MonoBehaviour {
 
-
+	public int sizeX = 100;
+	public int sizeZ = 50;
+	public float tileSize = 1.0f;
 
 	public int verticesCount = 4;
+
 	// Use this for initialization
 	void Start () 
 	{
 		BuildMesh();
 	}
-	void BuildMesh()
-	{
+public	void BuildMesh()
+	{	int numTiles = sizeX * sizeZ;
+		int numTris = numTiles *2;
+
+
+		int vSizeX = sizeX+1;
+		int vSizeZ = sizeZ+ 1;
+		verticesCount = vSizeX * vSizeZ;
+
 		//generage Mesh Data
 		Vector3[] vertices = new Vector3[verticesCount];
-		int[] triangles = new int[6 ]; 
 		Vector3[] normals = new Vector3[verticesCount];
 		Vector2[] uv = new Vector2[verticesCount];
 
-		vertices[0] = new Vector3(0,0,0);
-		vertices[1] = new Vector3(1,0,0);
-		vertices[2] = new Vector3(0,0,-1);
-		vertices[3] = new Vector3(1,0,-1);
+		int[] triangles = new int[numTris *3]; 
 
-		triangles[0] = 0;
-		triangles[1] = 3;
-		triangles[2] = 2;
+		int x,z,vertCount;
+		for(z = 0; z< vSizeZ;z++){
+			for(x = 0; x< vSizeX;x++){
+				 vertCount = z * vSizeX + x;
+				//we need length of tiles + 1
+				vertices[vertCount] = new Vector3(x*tileSize,0,z*tileSize);
+				//all normals point up
+				normals[vertCount] = Vector3.up;
 
-		triangles[3] = 0;
-		triangles[4] = 1;
-		triangles[5] = 3;
+				uv[vertCount] = new Vector2((float)x/vSizeX,(float)z/vSizeZ);
+
+				Debug.Log("Vert"+(z * vSizeX + x)+vertices[z * vSizeX + x]);
+			}
+		}
+
+		for(z = 0; z< sizeZ;z++){
+			for(x = 0; x< sizeX;x++){
+				int squareIndex = z * sizeX + x;
+				int triOffset = squareIndex * 6;
+				triangles[triOffset + 0] = z *vSizeX + x +  		0;
+				triangles[triOffset + 2] = z *vSizeX + x + vSizeX + 1;
+				triangles[triOffset + 1] = z *vSizeX + x + vSizeX + 0;
+				
+				triangles[triOffset + 3] = z *vSizeX + x +			0;
+				triangles[triOffset + 5] = z *vSizeX + x + 			1;
+				triangles[triOffset + 4] = z *vSizeX + x + vSizeX + 1;
+
+				Debug.Log("Triangle 1: Point 1: " +triangles[triOffset + 0]+"Point 2: "+triangles[triOffset + 1]+"Point 3: "+triangles[triOffset + 2]);
+				Debug.Log("Triangle 2: Point 1: " +triangles[triOffset + 3]+"Point 2: "+triangles[triOffset + 4]+"Point 3: "+triangles[triOffset + 5]);
+
+			}
+		}
 
 
-
-		normals[0] = Vector3.up;
-		normals[1] = Vector3.up;
-		normals[2] = Vector3.up;
-		normals[3] = Vector3.up;
-		/*
-		 * how it should be 
-		uv[0] = new Vector2(0,0);
-		uv[1] = new Vector3(1,0);
-		uv[2] = new Vector3(0,1);
-		uv[3] = new Vector3(1,1);
-		*/
-		//how it is 
-		//unity considers the bottom left hand coordinate 0,0
-		uv[0] = new Vector2(0,1);
-		uv[1] = new Vector3(1,1);
-		uv[2] = new Vector3(0,0);
-		uv[3] = new Vector3(1,0);
 
 		//create Mesh and populate data;
 		Mesh mesh = new Mesh();
