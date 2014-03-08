@@ -43,7 +43,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 304164c7ef32a8145b926a8fa0d769fc, type: 2}
+  - {fileID: 2100000, guid: 7a330d3a179e5a84d8210d3c635c087f, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -85,8 +85,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sizeX: 100
   sizeZ: 50
+  tileResolution: 8
   tileSize: 1
-  verticesCount: 4
+  verticesCount: 5151
+  randomHeight: 0
+  terranTiles: {fileID: 0}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
