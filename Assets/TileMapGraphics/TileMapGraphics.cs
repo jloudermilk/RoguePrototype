@@ -100,7 +100,7 @@ public class TileMapGraphics : MonoBehaviour {
 				//all normals point up
 				normals [vertCount] = Vector3.up;
 				
-				uv [vertCount] = new Vector2 ((float)x / sizeX, (float)z / sizeZ);
+				uv [vertCount] = new Vector2 ((float)x / sizeX, 1f - (float)z / sizeZ);
 				
 			}
 		}

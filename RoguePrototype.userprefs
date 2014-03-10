@@ -1,18 +1,41 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Editor\TileGraphicsMapInspector.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\TileMapData\TileMapData.cs">
     <Files>
-      <File FileName="Assets\Editor\TileGraphicsMapInspector.cs" Line="1" Column="1" />
-      <File FileName="Assets\TileMapGraphics\TileMapGraphics.cs" Line="1" Column="1" />
-      <File FileName="Assets\TileMapData\TileMapData.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\TileMap.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\QuadMap.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\TileMapMouse.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\TileMouseOver.cs" Line="1" Column="1" />
+      <File FileName="Assets\TileMapGraphics\TileMapGraphics.cs" Line="103" Column="58" />
+      <File FileName="Assets\TileMapData\TileMapData.cs" Line="31" Column="24" />
+      <File FileName="Assets\Editor\TileMapGraphicsInspector.cs" Line="11" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Assembly-CSharp" expanded="True">
+            <Node name="Scripts" expanded="True" />
+            <Node name="TileMapData" expanded="True">
+              <Node name="TileMapData.cs" selected="True" />
+            </Node>
+            <Node name="TileMapGraphics" expanded="True" />
+          </Node>
+          <Node name="Assembly-CSharp-Editor" expanded="True">
+            <Node name="Editor" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>check</Value>
+          <Value>this.m_lRooms</Value>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="B:\GitHub\RoguePrototype\Assets\TileMapData\TileMapData.cs" line="143" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
