@@ -1,30 +1,15 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\TileData\TileDataMap.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Editor\TileGraphicsMapInspector.cs">
     <Files>
-      <File FileName="Assets\TileData\TileData.cs" Line="12" Column="9" />
-      <File FileName="Assets\TileData\TileDataMap.cs" Line="19" Column="40" />
+      <File FileName="Assets\Editor\TileGraphicsMapInspector.cs" Line="1" Column="1" />
+      <File FileName="Assets\TileMapGraphics\TileMapGraphics.cs" Line="1" Column="1" />
+      <File FileName="Assets\TileMapData\TileMapData.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\TileMap.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\QuadMap.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\TileMapMouse.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\TileMouseOver.cs" Line="1" Column="1" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="Assembly-CSharp" expanded="True">
-            <Node name="TileData" expanded="True">
-              <Node name="TileDataMap.cs" selected="True" />
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-      <Pad Id="ClassPad">
-        <State expanded="True" selected="True" />
-      </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State>
-          <Value>texture</Value>
-          <Value>texture</Value>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

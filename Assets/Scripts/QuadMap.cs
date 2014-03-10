@@ -80,6 +80,8 @@ public class QuadMap : MonoBehaviour {
 		MeshCollider meshCollider = GetComponent<MeshCollider>();
 
 		meshFilter.mesh = mesh;
+		meshCollider.sharedMesh = mesh;
+
 	}
 		
 }
