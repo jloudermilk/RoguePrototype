@@ -3,159 +3,170 @@ using System.Collections.Generic;
 
 public class TileMapData
 {
-		public enum TYPE
-		{
 
-				UNKNOWN = 0,
-				FLOOR = 1,
-				WALL = 2,
-				STONE = 3
-		}
-
-		public class RoomData
-		{
-				public int m_iLeft, m_iTop, m_iWidth, m_iHeight;
-
-				public int m_iRight {
-						get{ return m_iLeft + m_iWidth - 1;}
-				}
-
-				public int m_iBottom {
-						get{ return m_iTop + m_iHeight - 1;}
-				}
-
-		public int m_iCenterX
-		{
-			get{ return (m_iLeft+ m_iWidth/2);}
-		}
-		public int m_iCenterY
-		{
-			get{return (m_iTop + m_iHeight/2);}
-		}
-
-				public bool CollidesWith (RoomData other)
-				{
-						if (m_iLeft > other.m_iRight - 1)
-								return false;
-						if (m_iTop > other.m_iBottom - 1)
-								return false;
-						if (m_iRight < other.m_iLeft + 1)
-								return false;
-						if (m_iBottom < other.m_iTop + 1)
-								return false;
-						return true;
-				}
-		}
-
-		private class RoomList : List<RoomData>
-		{
-		}
-		TYPE[,] mapData;
-		public int m_iWidth, m_iHeight;
-		RoomList m_lRooms;
-
-		public TileMapData ()
-		{
-				m_iWidth = 20;
-				m_iHeight = 20;
-		
-				mapData = new TYPE[m_iWidth, m_iHeight];
-		}
-
-		bool RoomCollides (RoomData r)
-		{
-				RoomData other = new RoomData ();
-				for (int i =0; i < m_lRooms.Count; i++) {
-						other = m_lRooms [i];
-						if (r.CollidesWith (m_lRooms [i])) {
-								return true;
-						}
-				}
-				return false;
-		}
-
-		public TileMapData (int a_iWidth, int a_iHeight)
-		{
-
-				m_iWidth = a_iWidth;
-				m_iHeight = a_iHeight;
-
-				mapData = new TYPE[m_iWidth, m_iHeight];
-				for (int x = 0; x < m_iWidth; x++)
-						for (int y = 0; y < m_iHeight; y++) {
-								mapData [x, y] = TYPE.STONE;
-						}	
+	//this is a workaround because of an error in monodevelope 
+	private class RoomList : List<RoomData>
+	{
+	}
 
 
-				m_lRooms = new RoomList ();
+	TYPE[,] mapData;
+	public int mapWidth, mapHeight;
+	RoomList roomList;
 
+
+	//default constructor
+	public TileMapData (): this(20,20)
+	{}
+
+	//constructor generally used
+	public TileMapData (int a_iWidth, int a_iHeight)
+	{
+
+		mapWidth = a_iWidth;
+		mapHeight = a_iHeight;
+
+		mapData = new TYPE[mapWidth, mapHeight];
+
+
+		//set the entiremap to "stone"
+		for (int x = 0; x < mapWidth; x++)
+			for (int y = 0; y < mapHeight; y++) {
+				mapData [x, y] = TYPE.STONE;
+			}	
+
+
+		roomList = new RoomList ();
 				
-				for (int i = 0; i < 20; i++) {
-						RoomData room = new RoomData ();
-						int rsx = Random.Range (4, 8);
-						int rsy = Random.Range (4, 8);
+		int failCount = 10;
+				
+		while (roomList.Count < 10) {
+			RoomData room = new RoomData ();
+			int rsx = Random.Range (4, 14);
+			int rsy = Random.Range (4, 12);
 
-						room.m_iLeft = Random.Range (0, m_iWidth - rsx);
-						room.m_iTop = Random.Range (0, m_iHeight - rsy);
-						room.m_iWidth = rsx;
-						room.m_iHeight = rsy;
+			room.m_iLeft = Random.Range (0, mapWidth - rsx);
+			room.m_iTop = Random.Range (0, mapHeight - rsy);
+			room.m_iWidth = rsx;
+			room.m_iHeight = rsy;
 						
-						if (m_lRooms.Count == 0) {
+			if (roomList.Count == 0) {
 
-								m_lRooms.Add (room);
-						} else if (!RoomCollides (room)) {
-								m_lRooms.Add (room);
-								MakeRoom (room);
-						}
-				}
+				roomList.Add (room);
+			} else if (!RoomCollides (room)) {
+				roomList.Add (room);
 
-		MakeCorridor(m_lRooms[0],m_lRooms[1]);
+			} else {
+				failCount--;
+				if (failCount <= 0)
+					break;
+			}
+							
+					
+		}
+		for(int i = 0; i <roomList.Count; i++) {
+			MakeRoom (roomList[i]);
 		}
 
-		public TYPE GetTile (int a_iX, int a_iY)
-		{
-				if (a_iX < 0 || a_iX >= m_iWidth || a_iY < 0 || a_iY >= m_iHeight) {
-						return TYPE.UNKNOWN;
-				}
-				return mapData [a_iX, a_iY];
+		for(int i = 0; i <roomList.Count; i++) {
+			if (!roomList[i].Connected) {
+				int j = Random.Range(1,roomList.Count);
+
+				MakeCorridor (roomList [i], roomList [(i+j) % roomList.Count]);
+		
+			}
 		}
 
-		void MakeRoom (RoomData room)
-		{
-				for (int x = 0; x < room.m_iWidth; x++)
-						for (int y = 0; y < room.m_iHeight; y++) {
-								if (x == 0 || x == room.m_iWidth - 1 || y == 0 || y == room.m_iHeight - 1)
-										mapData [room.m_iLeft + x, room.m_iTop + y] = TYPE.WALL;
-								else
-										mapData [room.m_iLeft + x, room.m_iTop + y] = TYPE.FLOOR;
+		MakeWalls();
 
-						}
+	}
 
+	public TYPE GetTile (int a_iX, int a_iY)
+	{
+		if (a_iX < 0 || a_iX >= mapWidth || a_iY < 0 || a_iY >= mapHeight) {
+			return TYPE.UNKNOWN;
 		}
+		return mapData [a_iX, a_iY];
+	}
 
-	void MakeCorridor(RoomData r1,RoomData r2 )
+	void MakeRoom (RoomData room)
+	{
+		for (int x = 0; x < room.m_iWidth; x++)
+			for (int y = 0; y < room.m_iHeight; y++) {
+				if (x == 0 || x == room.m_iWidth - 1 || y == 0 || y == room.m_iHeight - 1)
+					mapData [room.m_iLeft + x, room.m_iTop + y] = TYPE.WALL;
+				else
+					mapData [room.m_iLeft + x, room.m_iTop + y] = TYPE.FLOOR;
+
+			}
+
+	}
+
+	void MakeCorridor (RoomData r1, RoomData r2)
 	{
 		int x = r1.m_iCenterX;
 		int y = r1.m_iCenterY;
-		while(x != r2.m_iCenterX )
-		{
+		while (x != r2.m_iCenterX) {
 		
-				mapData[x,y] = TYPE.FLOOR;
+			mapData [x, y] = TYPE.FLOOR;
 			x += x < r2.m_iCenterX ? 1 : -1;
 				
-			}
-		while(y != r2.m_iCenterY )
-		{
+		}
+		while (y != r2.m_iCenterY) {
 			
-			mapData[x,y] = TYPE.FLOOR;
+			mapData [x, y] = TYPE.FLOOR;
 			y += y < r2.m_iCenterY ? 1 : -1;
 			
 		}
-			
+		r1.Connected = true;
+		r2.Connected = true;
+
+	}
+	void MakeWalls()
+	{
+		for(int x = 0; x < mapWidth ; x++) {
+			for(int y = 0; y < mapHeight; y++) {
+				if(mapData[x,y] == TYPE.STONE && HasAdjacentFloor(x,y))
+					mapData[x,y] = TYPE.WALL;
+			}
+		}
+
+	}
+	bool HasAdjacentFloor(int x, int y)
+	{	
+		//n,s,e,w
+		if(x > 0 && mapData[x-1,y] == TYPE.FLOOR)
+			return true;
+		if(x < mapWidth-1 && mapData[x+1,y] == TYPE.FLOOR)
+			return true;
+		if(y > 0 && mapData[x,y-1] == TYPE.FLOOR)
+			return true;
+		if(y < mapHeight-1 && mapData[x,y+1] == TYPE.FLOOR)
+			return true;
+
+		//nw,ne,sw,se
+		if(x > 0 && y > 0 && mapData[x-1,y-1] == TYPE.FLOOR)
+			return true;
+		if(x < mapWidth-1 && y > 0 && mapData[x+1,y-1] == TYPE.FLOOR)
+			return true;
+		if(x > 0 && y < mapHeight-1 && mapData[x-1,y+1] == TYPE.FLOOR)
+			return true;
+		if(x < mapWidth-1 && y < mapHeight-1 && mapData[x+1,y+1] == TYPE.FLOOR)
+			return true;
 
 
-
-
-
+		return false;
+	}
+	
+	bool RoomCollides (RoomData r)
+	{
+		RoomData other = new RoomData ();
+		for (int i =0; i < roomList.Count; i++) {
+			other = roomList [i];
+			if (r.CollidesWith (roomList [i])) {
+				return true;
+			}
+		}
+		return false;
 	}
 } 
