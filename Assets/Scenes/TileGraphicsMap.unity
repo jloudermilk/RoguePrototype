@@ -136,7 +136,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
---- !u!43 &532469067
+--- !u!43 &321309304
 Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -317,11 +317,11 @@ Prefab:
     - target: {fileID: 6400000, guid: a5846fd0f03064a458f59830b1ba8c89, type: 2}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 532469067}
+      objectReference: {fileID: 321309304}
     - target: {fileID: 3300000, guid: a5846fd0f03064a458f59830b1ba8c89, type: 2}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 532469067}
+      objectReference: {fileID: 321309304}
     - target: {fileID: 11400000, guid: a5846fd0f03064a458f59830b1ba8c89, type: 2}
       propertyPath: sizeX
       value: 60
@@ -496,7 +496,7 @@ MeshCollider:
   serializedVersion: 2
   m_SmoothSphereCollisions: 0
   m_Convex: 0
-  m_Mesh: {fileID: 532469067}
+  m_Mesh: {fileID: 321309304}
 --- !u!33 &2086358849
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -504,7 +504,7 @@ MeshFilter:
     type: 2}
   m_PrefabInternal: {fileID: 1083415379}
   m_GameObject: {fileID: 2086358845}
-  m_Mesh: {fileID: 532469067}
+  m_Mesh: {fileID: 321309304}
 --- !u!4 &2086358850
 Transform:
   m_ObjectHideFlags: 0

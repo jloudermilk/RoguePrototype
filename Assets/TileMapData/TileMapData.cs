@@ -1,4 +1,4 @@
-using UnityEngine;
+using SRNG;
 using System.Collections.Generic;
 
 public class TileMapData
@@ -22,7 +22,7 @@ public class TileMapData
 	//constructor generally used
 	public TileMapData (int a_iWidth, int a_iHeight)
 	{
-
+		SimpleRNG.SetSeed(1337);
 		mapWidth = a_iWidth;
 		mapHeight = a_iHeight;
 
@@ -42,11 +42,11 @@ public class TileMapData
 				
 		while (roomList.Count < 10) {
 			RoomData room = new RoomData ();
-			int rsx = Random.Range (4, 14);
-			int rsy = Random.Range (4, 12);
+			int rsx = (int)SimpleRNG.GetNormal() * 4+ 10;
+			int rsy = (int)SimpleRNG.GetNormal() * 4+ 8;
 
-			room.m_iLeft = Random.Range (0, mapWidth - rsx);
-			room.m_iTop = Random.Range (0, mapHeight - rsy);
+			room.m_iLeft = (int)SimpleRNG.GetNormal()  *(mapWidth - rsx);
+			room.m_iTop = (int)SimpleRNG.GetNormal()  *(mapWidth - rsy);
 			room.m_iWidth = rsx;
 			room.m_iHeight = rsy;
 						
@@ -70,7 +70,7 @@ public class TileMapData
 
 		for(int i = 0; i <roomList.Count; i++) {
 			if (!roomList[i].Connected) {
-				int j = Random.Range(1,roomList.Count);
+				int j = 1 + ((int)SimpleRNG.GetNormal()  * roomList.Count);
 
 				MakeCorridor (roomList [i], roomList [(i+j) % roomList.Count]);
 		
