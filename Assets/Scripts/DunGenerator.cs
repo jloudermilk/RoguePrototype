@@ -151,9 +151,27 @@ public class DunGenerator : MonoBehaviour
 					//seting UV Coord
 					uv [vertCount] .Set ((float)x / c.Width, 1f - (float)z / c.Height);
 
+
+		
 				}
 
 			}
+			for (z = 0; z< c.Height; z++) {
+				for (x = 0; x< c.Width; x++) {
+					int squareIndex = z * c.Width + x;
+					int triOffset = squareIndex * 6;
+					triangles [triOffset + 0] = z * vSizeX + x + 0;
+					triangles [triOffset + 1] = z * vSizeX + x + vSizeX + 1;
+					triangles [triOffset + 2] = z * vSizeX + x + vSizeX + 0;
+					
+					triangles [triOffset + 3] = z * vSizeX + x + 0;
+					triangles [triOffset + 4] = z * vSizeX + x + 1;
+					triangles [triOffset + 5] = z * vSizeX + x + vSizeX + 1;
+					
+				}
+			}
+
+
 			GameObject cham = GameObject.Instantiate(Cham,new Vector3(c.Left,0,c.Top),Quaternion.identity) as GameObject;
 			//create Mesh and populate data;
 			Mesh mesh = new Mesh ();
@@ -165,7 +183,7 @@ public class DunGenerator : MonoBehaviour
 			MeshFilter meshFilter = cham.GetComponent<MeshFilter> ();
 			MeshRenderer meshRender = cham.GetComponent<MeshRenderer> ();
 			MeshCollider meshCollider = GetComponent<MeshCollider> ();
-			//mesh.name = "Chamber " + i;
+			mesh.name = "Chamber " + i;
 			meshFilter.mesh = mesh;
 			meshCollider.sharedMesh = mesh;
 		
