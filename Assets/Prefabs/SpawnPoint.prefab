@@ -86,10 +86,10 @@ MonoBehaviour:
   minY: 3
   maxX: 11
   maxY: 11
-  numChambers: 1
+  numChambers: 150
   verticesCount: 4
   tileSize: 1
-  Cham: {fileID: 0}
+  Cham: {fileID: 100000, guid: f00a9723e9b81114ab1ee88cfd48c3c0, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

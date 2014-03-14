@@ -32,6 +32,8 @@ public class RoomData
 	{
 		if (m_iLeft > other.m_iRight - 1)
 			return false;
+		else
+
 		if (m_iTop > other.m_iBottom - 1)
 			return false;
 		if (m_iRight < other.m_iLeft + 1)

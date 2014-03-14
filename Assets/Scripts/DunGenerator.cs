@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 using SRNG;
-using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
@@ -15,22 +15,31 @@ public class DunGenerator : MonoBehaviour
 	public int verticesCount = 4;
 	public int tileSize = 1;
 	public GameObject Cham;
-
+	public List<Chamber> ChamberList;
 
 	public class Chamber
 	{
-		public float Left, Top, Bottom, Right, CenterX, CenterY;
+		public int Left, Top, Bottom, Right, CenterX, CenterY;
 		public int Width, Height;
 		public int Range = 8, Offset = 3;
+		public bool Overlapping = false;
+		public int countAbove = 0;
+		public int countBelow = 0;
+		public int countLeft = 0;
+		public int countRight = 0;
+		public List<Chamber> Neighbors;
+
 
 		public Chamber ()
 		{
+			Neighbors = new List<Chamber>();
 			SimpleRNG.SetSeed (31337);
 
 		}
 
 		public Chamber (uint seed)
 		{
+			Neighbors = new List<Chamber>();
 			SimpleRNG.SetSeed (seed);
 
 		}
@@ -45,8 +54,8 @@ public class DunGenerator : MonoBehaviour
 		{
 			Width = (int)(SimpleRNG.GetUniform () * Range) + Offset;
 			Height = (int)(SimpleRNG.GetUniform () * Range) + Offset;
-			Top = (float)(SimpleRNG.GetUniform () * Range) + Offset;
-			Left = (float)(SimpleRNG.GetUniform () * Range) + Offset;
+			Top = (int)(SimpleRNG.GetUniform () * Range) + Offset;
+			Left = (int)(SimpleRNG.GetUniform () * Range) + Offset;
 
 			Right = Left + Width;
 			Bottom = Top + Height;
@@ -59,8 +68,8 @@ public class DunGenerator : MonoBehaviour
 		{
 			Width = width;
 			Height = height;
-			Top = (float)(SimpleRNG.GetUniform () * Range) + Offset;
-			Left = (float)(SimpleRNG.GetUniform () * Range) + Offset;
+			Top = (int)(SimpleRNG.GetUniform () * Range) + Offset;
+			Left = (int)(SimpleRNG.GetUniform () * Range) + Offset;
 			Right = Left + Width;
 			Bottom = Top + Height;
 			CenterX = Left + Width / 2;
@@ -68,20 +77,9 @@ public class DunGenerator : MonoBehaviour
 			
 		}
 
-		public void SetData (float top, float left)
-		{
-			Width = (int)(SimpleRNG.GetUniform () * Range) + Offset;
-			Height = (int)(SimpleRNG.GetUniform () * Range) + Offset;
-			Top = top;
-			Left = left;
-			Right = Left + Width;
-			Bottom = Top + Height;
-			CenterX = Left + Width / 2;
-			CenterY = Top + Height / 2;
-			
-		}
 
-		public void SetData (float top, float left, int width, int height)
+
+		public void SetData (int top, int left, int width, int height)
 		{
 			Width = width;
 			Height = height;
@@ -92,6 +90,27 @@ public class DunGenerator : MonoBehaviour
 			CenterX = Left + Width / 2;
 			CenterY = Top + Height / 2;
 		}
+
+			public bool CollidesWith (Chamber other)
+			{
+				if (Left > other.Right - 1)
+					return false;
+			else
+			{
+			
+			}
+				if (Top > other.Bottom - 1)
+					return false;
+			else{}
+				if (Right < other.Left + 1)
+					return false;
+			else{}
+				if (Bottom < other.Top + 1)
+					return false;
+			else{}
+				return true;
+			}
+
 
 
 	}
@@ -120,9 +139,36 @@ public class DunGenerator : MonoBehaviour
 		
 		int[] triangles = new int[0];
 
-		for (int i = 0; i < numChambers; i++) {
+		ChamberList = new List<Chamber>();
+		Chamber c;
 
-			Chamber c = new Chamber ();
+		for (int i = 0; i < numChambers; i++) {
+			
+			c = new Chamber ();
+			ChamberList.Add(c);
+		}
+
+		for (int i = 1; i < numChambers; i++) {
+			
+			c = ChamberList[i];
+			foreach (Chamber other in ChamberList)
+			{
+				if(c.CollidesWith(other))
+				{
+					c.Neighbors.Add(other);
+
+				}
+
+
+			}
+		}
+
+
+
+		for (int i = 0; i < numChambers; i++) {
+						
+			c = ChamberList[i];
+		
 			c.SetRange (maxX - minX, minX);
 			c.SetData ();
 			int numTiles = c.Width * c.Height;
@@ -150,9 +196,7 @@ public class DunGenerator : MonoBehaviour
 					normals [vertCount].Set (0, 1, 0); 
 					//seting UV Coord
 					uv [vertCount] .Set ((float)x / c.Width, 1f - (float)z / c.Height);
-
-
-		
+	
 				}
 
 			}
@@ -182,7 +226,7 @@ public class DunGenerator : MonoBehaviour
 			mesh.uv = uv;
 			MeshFilter meshFilter = cham.GetComponent<MeshFilter> ();
 			MeshRenderer meshRender = cham.GetComponent<MeshRenderer> ();
-			MeshCollider meshCollider = GetComponent<MeshCollider> ();
+			MeshCollider meshCollider = cham.GetComponent<MeshCollider> ();
 			mesh.name = "Chamber " + i;
 			meshFilter.mesh = mesh;
 			meshCollider.sharedMesh = mesh;
