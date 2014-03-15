@@ -18,6 +18,11 @@ public class DunGeneratorInspector : Editor{
 				dunGen= (DunGenerator) target;
 				dunGen.BuildMesh();
 			}
+		if(GUILayout.Button("Sort"))
+		{
+			dunGen= (DunGenerator) target;
+			dunGen.SortChambers();
+		}
 			
 			
 		}

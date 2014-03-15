@@ -8,40 +8,65 @@ using System.Collections.Generic;
 
 public class DunGenerator : MonoBehaviour
 {
+	public class ChamberList : List<Chamber>
+	{
+	}
 
 	public int minX = 3, minY = 3;
 	public int  maxX = 11, maxY = 11;
 	public int numChambers = 1;
 	public int verticesCount = 4;
 	public int tileSize = 1;
+
+
 	public GameObject Cham;
-	public List<Chamber> ChamberList;
+	ChamberList CList;
+	public List<GameObject> Chams;
 
 	public class Chamber
 	{
-		public int Left, Top, Bottom, Right, CenterX, CenterY;
+		public int Left, Top;
 		public int Width, Height;
 		public int Range = 8, Offset = 3;
 		public bool Overlapping = false;
-		public int countAbove = 0;
-		public int countBelow = 0;
-		public int countLeft = 0;
-		public int countRight = 0;
-		public List<Chamber> Neighbors;
+		public int moveX;
+		public int moveY;
+		public ChamberList Neighbors;
 
+		public int Right {
+			get{ return Left + Width - 1;}
+		}
+		
+		public int Bottom {
+			get{ return Top + Height - 1;}
+		}
+		
+		public float CenterX {
+			get{ return (float)(Left + Width / 2f);}
+		}
+		
+		public float CenterY {
+			get{ return (float)(Top + Height / 2f);}
+		}
 
 		public Chamber ()
 		{
-			Neighbors = new List<Chamber>();
+			Neighbors = new ChamberList ();
 			SimpleRNG.SetSeed (31337);
 
 		}
 
 		public Chamber (uint seed)
 		{
-			Neighbors = new List<Chamber>();
+			Neighbors = new ChamberList ();
 			SimpleRNG.SetSeed (seed);
 
+		}
+
+		public bool Equals (Chamber other)
+		{
+			return Left == other.Left && Top == other.Top && Width == other.Width && Height == other.Height;
+			
 		}
 
 		public void SetRange (int range, int offset)
@@ -52,15 +77,21 @@ public class DunGenerator : MonoBehaviour
 
 		public void SetData ()
 		{
-			Width = (int)(SimpleRNG.GetUniform () * Range) + Offset;
-			Height = (int)(SimpleRNG.GetUniform () * Range) + Offset;
-			Top = (int)(SimpleRNG.GetUniform () * Range) + Offset;
-			Left = (int)(SimpleRNG.GetUniform () * Range) + Offset;
+			Width = (int)(SimpleRNG.GetNormal(0.25,0.25) * Range) + Offset+1;
+			if(Width < 3)
+				Width = 3;
+			Height = (int)(SimpleRNG.GetNormal(0.25,0.25)  * Range) + Offset+1;
+			if(Height < 3)
+				Height = 3;
+			if(Height > 6 && Width < 6)
+				Height = 3;
+			if(Height < 6 && Width > 6)
+						Width = 3;
 
-			Right = Left + Width;
-			Bottom = Top + Height;
-			CenterX = Left + Width / 2;
-			CenterY = Top + Height / 2;
+			Top = (int)(SimpleRNG.GetNormal () * (Range ));
+			Left = (int)(SimpleRNG.GetNormal () * (Range ));
+
+	
 
 		}
 
@@ -70,14 +101,9 @@ public class DunGenerator : MonoBehaviour
 			Height = height;
 			Top = (int)(SimpleRNG.GetUniform () * Range) + Offset;
 			Left = (int)(SimpleRNG.GetUniform () * Range) + Offset;
-			Right = Left + Width;
-			Bottom = Top + Height;
-			CenterX = Left + Width / 2;
-			CenterY = Top + Height / 2;
+
 			
 		}
-
-
 
 		public void SetData (int top, int left, int width, int height)
 		{
@@ -85,31 +111,48 @@ public class DunGenerator : MonoBehaviour
 			Height = height;
 			Top = top;
 			Left = left;
-			Right = Left + Width;
-			Bottom = Top + Height;
-			CenterX = Left + Width / 2;
-			CenterY = Top + Height / 2;
+
 		}
 
-			public bool CollidesWith (Chamber other)
-			{
-				if (Left > other.Right - 1)
-					return false;
+		public bool CollidesWith (Chamber other)
+		{
+			if (Left > other.Right)
+				return false;
+
+			if (Top > other.Bottom)
+				return false;
+		
+			if (Right < other.Left)
+				return false;
+
+			if (Bottom < other.Top)
+				return false;
+
+			return true;
+		}
+
+		public void Separate (Chamber other)
+		{
+			float distX  = CenterX - other.CenterX;
+			float distY = CenterY - other.CenterY;
+
+
+			if(distX > 0)
+				moveX++;
 			else
-			{
-			
-			}
-				if (Top > other.Bottom - 1)
-					return false;
-			else{}
-				if (Right < other.Left + 1)
-					return false;
-			else{}
-				if (Bottom < other.Top + 1)
-					return false;
-			else{}
-				return true;
-			}
+				moveX--;
+			if(distY> 0)
+				moveY++;
+			else
+				moveY--;
+
+
+
+//			moveX  = CenterX - other.CenterX;
+//			moveY = CenterY - other.CenterY;
+//			
+
+		}
 
 
 
@@ -119,7 +162,7 @@ public class DunGenerator : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		BuildMesh (0);
+		BuildMesh ();
 	}
 
 	public void BuildMesh ()
@@ -139,35 +182,20 @@ public class DunGenerator : MonoBehaviour
 		
 		int[] triangles = new int[0];
 
-		ChamberList = new List<Chamber>();
+		CList = new ChamberList ();
 		Chamber c;
 
 		for (int i = 0; i < numChambers; i++) {
 			
 			c = new Chamber ();
-			ChamberList.Add(c);
+			CList.Add (c);
 		}
-
-		for (int i = 1; i < numChambers; i++) {
-			
-			c = ChamberList[i];
-			foreach (Chamber other in ChamberList)
-			{
-				if(c.CollidesWith(other))
-				{
-					c.Neighbors.Add(other);
-
-				}
-
-
-			}
-		}
-
 
 
 		for (int i = 0; i < numChambers; i++) {
 						
-			c = ChamberList[i];
+			c = CList [i];
+		
 		
 			c.SetRange (maxX - minX, minX);
 			c.SetData ();
@@ -216,7 +244,7 @@ public class DunGenerator : MonoBehaviour
 			}
 
 
-			GameObject cham = GameObject.Instantiate(Cham,new Vector3(c.Left,0,c.Top),Quaternion.identity) as GameObject;
+			GameObject cham = GameObject.Instantiate (Cham, new Vector3 (c.Left, 0, c.Top), Quaternion.identity) as GameObject;
 			//create Mesh and populate data;
 			Mesh mesh = new Mesh ();
 
@@ -228,11 +256,75 @@ public class DunGenerator : MonoBehaviour
 			MeshRenderer meshRender = cham.GetComponent<MeshRenderer> ();
 			MeshCollider meshCollider = cham.GetComponent<MeshCollider> ();
 			mesh.name = "Chamber " + i;
+			cham.name = "Chamber " + i;
+			if(c.Width > 6 && c.Height >6)
+				meshRender.renderer.material.color = new Color(1,0,0,1);
 			meshFilter.mesh = mesh;
 			meshCollider.sharedMesh = mesh;
-		
+
+			Chams.Add (cham);
+		}
+		for(int i  = 0; i < 100;i++)
+		{
+			SortChambers();
 		}
 
 
 	}
+	/*
+	public void SortChambers ()
+	{
+
+		Chamber c = new Chamber ();
+		for (int i = 0; i < numChambers; i++) {
+				
+			c = CList [i];
+			foreach (Chamber other in CList) {
+				if (c.CollidesWith (other)) {
+					c.Neighbors.Add (other);
+					c.Separate (other);
+				}
+			}
+
+		}
+
+		for (int i = 0; i < numChambers; i++) {
+
+		}
+
+
+	}
+
+	*/
+	public void SortChambers ()
+	{
+		
+		Chamber c = new Chamber ();
+		Chamber c2 = new Chamber ();
+
+		for (int i = 0; i < numChambers; i++) {
+			
+			c = CList [i];
+			c.Neighbors.Clear ();
+			c.moveX = 0;
+			c.moveY = 0;
+			for (int j = 0; j < numChambers; j++) {
+				c2 = CList [j];
+				if (!(c.Equals (c2)) && c.CollidesWith (c2)) {
+					c.Neighbors.Add (c2);
+					c.Separate (c2);
+				}
+			}
+		}
+			
+
+		
+		for (int i = 0; i < numChambers; i++) {
+			c = CList [i];
+			c.Left += c.moveX;
+			c.Top += c.moveY;
+			Chams [i].transform.position += new Vector3 (c.moveX, 0, c.moveY);
+		}
+	}
 }
+

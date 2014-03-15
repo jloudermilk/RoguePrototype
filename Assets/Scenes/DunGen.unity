@@ -189,7 +189,7 @@ MonoBehaviour:
   minY: 3
   maxX: 11
   maxY: 11
-  numChambers: 150
+  numChambers: 10
   verticesCount: 4
   tileSize: 1
   Cham: {fileID: 100000, guid: f00a9723e9b81114ab1ee88cfd48c3c0, type: 2}
@@ -285,7 +285,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 307c7ad97a3c5ef4b96f6eb34619b58a, type: 2}
       propertyPath: numChambers
-      value: 150
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 307c7ad97a3c5ef4b96f6eb34619b58a, type: 2}
