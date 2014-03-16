@@ -8,155 +8,16 @@ using System.Collections.Generic;
 
 public class DunGenerator : MonoBehaviour
 {
-	public class ChamberList : List<Chamber>
-	{
-	}
-
 	public int minX = 3, minY = 3;
 	public int  maxX = 11, maxY = 11;
 	public int numChambers = 1;
 	public int verticesCount = 4;
 	public int tileSize = 1;
-
-
-	public GameObject Cham;
+	
+	
+	public GameObject Room;
 	ChamberList CList;
 	public List<GameObject> Chams;
-
-	public class Chamber
-	{
-		public int Left, Top;
-		public int Width, Height;
-		public int Range = 8, Offset = 3;
-		public bool Overlapping = false;
-		public int moveX;
-		public int moveY;
-		public ChamberList Neighbors;
-
-		public int Right {
-			get{ return Left + Width - 1;}
-		}
-		
-		public int Bottom {
-			get{ return Top + Height - 1;}
-		}
-		
-		public float CenterX {
-			get{ return (float)(Left + Width / 2f);}
-		}
-		
-		public float CenterY {
-			get{ return (float)(Top + Height / 2f);}
-		}
-
-		public Chamber ()
-		{
-			Neighbors = new ChamberList ();
-			SimpleRNG.SetSeed (31337);
-
-		}
-
-		public Chamber (uint seed)
-		{
-			Neighbors = new ChamberList ();
-			SimpleRNG.SetSeed (seed);
-
-		}
-
-		public bool Equals (Chamber other)
-		{
-			return Left == other.Left && Top == other.Top && Width == other.Width && Height == other.Height;
-			
-		}
-
-		public void SetRange (int range, int offset)
-		{
-			Range = range;
-			Offset = offset;
-		}
-
-		public void SetData ()
-		{
-			Width = (int)(SimpleRNG.GetNormal(0.25,0.25) * Range) + Offset+1;
-			if(Width < 3)
-				Width = 3;
-			Height = (int)(SimpleRNG.GetNormal(0.25,0.25)  * Range) + Offset+1;
-			if(Height < 3)
-				Height = 3;
-			if(Height > 6 && Width < 6)
-				Height = 3;
-			if(Height < 6 && Width > 6)
-						Width = 3;
-
-			Top = (int)(SimpleRNG.GetNormal () * (Range ));
-			Left = (int)(SimpleRNG.GetNormal () * (Range ));
-
-	
-
-		}
-
-		public void SetData (int width, int height)
-		{
-			Width = width;
-			Height = height;
-			Top = (int)(SimpleRNG.GetUniform () * Range) + Offset;
-			Left = (int)(SimpleRNG.GetUniform () * Range) + Offset;
-
-			
-		}
-
-		public void SetData (int top, int left, int width, int height)
-		{
-			Width = width;
-			Height = height;
-			Top = top;
-			Left = left;
-
-		}
-
-		public bool CollidesWith (Chamber other)
-		{
-			if (Left > other.Right)
-				return false;
-
-			if (Top > other.Bottom)
-				return false;
-		
-			if (Right < other.Left)
-				return false;
-
-			if (Bottom < other.Top)
-				return false;
-
-			return true;
-		}
-
-		public void Separate (Chamber other)
-		{
-			float distX  = CenterX - other.CenterX;
-			float distY = CenterY - other.CenterY;
-
-
-			if(distX > 0)
-				moveX++;
-			else
-				moveX--;
-			if(distY> 0)
-				moveY++;
-			else
-				moveY--;
-
-
-
-//			moveX  = CenterX - other.CenterX;
-//			moveY = CenterY - other.CenterY;
-//			
-
-		}
-
-
-
-	}
 
 
 	// Use this for initialization
@@ -244,7 +105,7 @@ public class DunGenerator : MonoBehaviour
 			}
 
 
-			GameObject cham = GameObject.Instantiate (Cham, new Vector3 (c.Left, 0, c.Top), Quaternion.identity) as GameObject;
+			GameObject cham = GameObject.Instantiate (Room, new Vector3 (c.Left, 0, c.Top), Quaternion.identity) as GameObject;
 			//create Mesh and populate data;
 			Mesh mesh = new Mesh ();
 
