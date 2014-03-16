@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System;
+using System.Collections.Generic;
+using SRNG;
 
 
 	public class ChamberList : List<Chamber>
