@@ -2,7 +2,7 @@
 using System.Collections;
 [RequireComponent(typeof(TileMap))]
 public class TileMapMouse : MonoBehaviour {
-	TileMap tileMap;
+	TileMapTest tileMap;
 	public Vector3 currentTileCoord;
 	public Transform selectionCube;
 	public Color highlightColor;
@@ -10,7 +10,7 @@ public class TileMapMouse : MonoBehaviour {
 	Color normalColor;
 	// Use this for initialization
 	void Start () {
-		tileMap = GetComponent<TileMap>();
+		tileMap = GetComponent<TileMapTest>();
 		normalColor = renderer.material.color;
 	}
 	

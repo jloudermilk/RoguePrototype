@@ -21,6 +21,7 @@ Temp
 *.sln
 *.userprefs 
 ProjectSettings/Physics2DSettings.asset
-ProjectSettings/Physics2DSettings.asset
-ProjectSettings/Physics2DSettings.asset
 *.asset
+Assets/PETileMapper.meta
+Assets/PETileMapper/*.*
+Assets/PETileMapper

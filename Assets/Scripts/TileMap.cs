@@ -9,7 +9,7 @@ using System.Collections;
 [RequireComponent(typeof(MeshCollider))]
 
 
-public class TileMap : MonoBehaviour
+public class TileMapTest : MonoBehaviour
 {
 
 		public int sizeX = 100;
