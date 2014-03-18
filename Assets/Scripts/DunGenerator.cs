@@ -13,11 +13,19 @@ public class DunGenerator : MonoBehaviour
 	public int numChambers = 1;
 	public int verticesCount = 4;
 	public int tileSize = 1;
-	
+
+	public struct roomConnection
+	{
+		public	Vector3 root, n1, n2;
+		public	float d1, d2;
+	}
 	
 	public GameObject Room;
 	ChamberList CList;
 	public List<GameObject> Chams;
+	public List<roomConnection> BigRooms;
+
+
 
 
 	// Use this for initialization
@@ -37,6 +45,7 @@ public class DunGenerator : MonoBehaviour
 		if (seed != 0)
 			SimpleRNG.SetSeed (seed);
 
+		BigRooms = new List<roomConnection> ();
 		Vector3[] vertices = new Vector3[0];
 		Vector3[] normals = new Vector3[0];
 		Vector2[] uv = new Vector2[0];
@@ -105,7 +114,7 @@ public class DunGenerator : MonoBehaviour
 			}
 
 
-			GameObject cham = GameObject.Instantiate (Room, new Vector3 (c.Left, 0, c.Top), Quaternion.identity) as GameObject;
+			GameObject cham = GameObject.Instantiate (Room, new Vector3 (c.CenterX, 0, c.CenterY), Quaternion.identity) as GameObject;
 			//create Mesh and populate data;
 			Mesh mesh = new Mesh ();
 
@@ -118,19 +127,60 @@ public class DunGenerator : MonoBehaviour
 			MeshCollider meshCollider = cham.GetComponent<MeshCollider> ();
 			mesh.name = "Chamber " + i;
 			cham.name = "Chamber " + i;
-			if(c.Width > 6 && c.Height >6)
-				meshRender.renderer.material.color = new Color(1,0,0,1);
+			if (c.Width > 6 && c.Height > 6) {
+
+
+				meshRender.renderer.material.color = new Color (1, 0, 0, 1);
+			}
+
+		
 			meshFilter.mesh = mesh;
 			meshCollider.sharedMesh = mesh;
-
+			cham.GetComponent<ChamberTest> ().Copy (c);
 			Chams.Add (cham);
 		}
-		for(int i  = 0; i < 100;i++)
-		{
-			SortChambers();
+		for (int i = 0; i < 100; i++) {
+			
+			SortChambers ();
+		}
+		for (int i = 0; i < numChambers; i++) {
+			if (CList[i].Width > 6 && CList[i].Height > 6) {
+		
+				roomConnection temp = new roomConnection ();
+				temp.d1 = temp.d2 = Mathf.Infinity;
+				temp.root = new Vector3 (CList[i].CenterX, 0,CList[i].CenterY);
+				BigRooms.Add (temp);	
+			}
+		}
+		
+		for (int k = 0; k< BigRooms.Count; k++) {
+			for (int j = 0; j< BigRooms.Count; j++) {
+				if (k != j) {
+					float dis = Vector3.Distance (BigRooms [k].root, BigRooms [j].root);
+
+					if (dis < BigRooms [k].d1) {
+						roomConnection r1 = BigRooms [k];
+						r1.d1 = dis;
+						r1.n1 = BigRooms [j].root;
+						BigRooms [k] = r1;
+					} else if (dis < BigRooms [k].d2) {
+						roomConnection r1 = BigRooms [k];
+						r1.d2 = dis;
+						r1.n2 = BigRooms [j].root;
+						BigRooms [k] = r1;
+					}
+				}
+			}
 		}
 
-
+	}
+		
+	void Update()
+	{
+		foreach (roomConnection r1 in BigRooms) {
+			Debug.DrawLine (r1.root, r1.n1, Color.green );
+			Debug.DrawLine (r1.root, r1.n2, Color.green);
+		}
 	}
 	/*
 	public void SortChambers ()
@@ -167,6 +217,7 @@ public class DunGenerator : MonoBehaviour
 			
 			c = CList [i];
 			c.Neighbors.Clear ();
+			c.Overlapping = false;
 			c.moveX = 0;
 			c.moveY = 0;
 			for (int j = 0; j < numChambers; j++) {
@@ -174,18 +225,25 @@ public class DunGenerator : MonoBehaviour
 				if (!(c.Equals (c2)) && c.CollidesWith (c2)) {
 					c.Neighbors.Add (c2);
 					c.Separate (c2);
+
 				}
 			}
 		}
-			
-
-		
 		for (int i = 0; i < numChambers; i++) {
 			c = CList [i];
-			c.Left += c.moveX;
-			c.Top += c.moveY;
-			Chams [i].transform.position += new Vector3 (c.moveX, 0, c.moveY);
-		}
+			if (c.moveX != 0) {
+				c.Left += 1 * (int)Mathf.Sign (c.moveX);
+				if (c.Width % 2 != 0)
+					c.Left += 1 * (int)Mathf.Sign (c.moveX);
+			}
+			if (c.moveY != 0) {
+				c.Top += 1 * (int)Mathf.Sign (c.moveY);
+				if (c.Height % 2 != 0)
+					c.Top += 1 * (int)Mathf.Sign (c.moveY);
+			}
+			Chams [i].transform.position = new Vector3 (c.CenterX, 0, c.CenterY);
+			Chams [i].GetComponent<ChamberTest> ().Copy (c);
+		}	
 	}
 }
 
