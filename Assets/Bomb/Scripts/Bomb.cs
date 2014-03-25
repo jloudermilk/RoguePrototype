@@ -1,52 +1,148 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Bomb : MonoBehaviour {
+public class Bomb : MonoBehaviour
+{
 	public GameObject Player;
+	public GameObject FireN;
+	public GameObject FireS;
 	public GameObject FireE;
+	public GameObject FireW;
+	public GameObject FireH;
+	public GameObject FireV;
 	public float Timer = 2f;
 	public float Size = 1;
 	public Animator animator;
-	float elapsedTime  = 0;
+	float elapsedTime = 0;
 	public float clipTime;
 	public AnimationEvent ReloadEvent;
 	public AnimationEvent DieEvent;
 	public bool exploded = false;
 
 	// Use this for initialization
-	void Start () {
-		animator = GetComponent<Animator>();
-		ReloadEvent = new AnimationEvent();
+	void Start ()
+	{
+		animator = GetComponent<Animator> ();
+		ReloadEvent = new AnimationEvent ();
 		ReloadEvent.functionName = "AddBomb";
-		DieEvent = new AnimationEvent();
+		DieEvent = new AnimationEvent ();
 		DieEvent.functionName = "Die";
 	}
 
 	// Update is called once per frame
-	void Update () {
-		clipTime = animator.GetCurrentAnimatorStateInfo(0).length;
-		elapsedTime +=  Time.deltaTime;
-		if(elapsedTime > Timer && !exploded)
-		{
-			exploded = true;
-			animator.Play("Explode");
-			int layerMask = LayerMask.NameToLayer("Floor");
-			RaycastHit2D hit = Physics2D.Raycast(transform.position,Vector2.right, 1f,layerMask);
-			if(hit.collider.isTrigger)
-			{
-				GameObject SetFireEnd = Instantiate(FireE,transform.position + new Vector3(1,0,0),Quaternion.identity) as GameObject;
-				SetFireEnd.GetComponent<Fire>().Player = Player;
-			}
+	void Update ()
+	{
+		clipTime = animator.GetCurrentAnimatorStateInfo (0).length;
+		elapsedTime += Time.deltaTime;
+		if (elapsedTime > Timer && !exploded) {
+			Expode();
 		}
 	}
-	public void AddBomb()
+
+	void Expode ()
 	{
-		Player.GetComponent<DarkPlayerController>().BombNum++;
-		Die();
+		
+		exploded = true;
+		animator.Play ("Explode");
+		int layerMask = LayerMask.NameToLayer ("CollisionLayer");
+		RaycastHit2D hit;
+		GameObject SetFire;
+		Vector3 point;
+
+		for (int i = 1; i < Size; i++) {
+			hit = Physics2D.Raycast (transform.position, Vector2.right, (float)i, 1 << layerMask);
+			
+			if (hit.collider == null) {
+				point = transform.position + (new Vector3 (1, 0, 0) * i);
+				SetFire = Instantiate (FireH, point, Quaternion.identity) as GameObject;
+				Debug.DrawLine (transform.position, point, Color.green, 10f);
+				Debug.Log (point);
+				SetFire.GetComponent<Fire> ().Player = Player;
+			}
+			
+			hit = Physics2D.Raycast (transform.position, -Vector2.right, (float)i, 1 << layerMask);
+			
+			if (hit.collider == null) {
+				point = transform.position + (new Vector3 (-1, 0, 0) * i);
+				SetFire = Instantiate (FireH, point, Quaternion.identity) as GameObject;
+				Debug.DrawLine (transform.position, point, Color.green, 10f);
+				Debug.Log (point);
+				SetFire.GetComponent<Fire> ().Player = Player;
+			}
+			
+			hit = Physics2D.Raycast (transform.position, Vector2.up, (float)i, 1 << layerMask);
+			
+			if (hit.collider == null) {
+				point = transform.position + (new Vector3 (0, 1, 0) * i);
+				SetFire = Instantiate (FireV, point, Quaternion.identity) as GameObject;
+				Debug.DrawLine (transform.position, point, Color.green, 10f);
+				Debug.Log (point);
+				SetFire.GetComponent<Fire> ().Player = Player;
+			}
+			
+			hit = Physics2D.Raycast (transform.position, -Vector2.up, (float)i, 1 << layerMask);
+			
+			if (hit.collider == null) {
+				point = transform.position + (new Vector3 (0, -1, 0) * i);
+				SetFire = Instantiate (FireV, point, Quaternion.identity) as GameObject;
+				Debug.DrawLine (transform.position, point, Color.green, 10f);
+				Debug.Log (point);
+				SetFire.GetComponent<Fire> ().Player = Player;
+			}
+
+		}
+
+		hit = Physics2D.Raycast (transform.position, Vector2.right, (float)Size, 1 << layerMask);
+		
+		if (hit.collider == null) {
+			point = transform.position + (new Vector3 (1, 0, 0) * Size);
+			SetFire = Instantiate (FireE, point, Quaternion.identity) as GameObject;
+			Debug.DrawLine (transform.position, point, Color.green, 10f);
+			Debug.Log (point);
+			SetFire.GetComponent<Fire> ().Player = Player;
+		}
+		
+		hit = Physics2D.Raycast (transform.position, -Vector2.right, (float)Size, 1 << layerMask);
+		
+		if (hit.collider == null) {
+			point = transform.position + (new Vector3 (-1, 0, 0) * Size);
+			SetFire = Instantiate (FireW, point, Quaternion.identity) as GameObject;
+			Debug.DrawLine (transform.position, point, Color.green, 10f);
+			Debug.Log (point);
+			SetFire.GetComponent<Fire> ().Player = Player;
+		}
+		
+		hit = Physics2D.Raycast (transform.position, Vector2.up, (float)Size, 1 << layerMask);
+		
+		if (hit.collider == null) {
+			point = transform.position + (new Vector3 (0, 1, 0) * Size);
+			SetFire = Instantiate (FireN, point, Quaternion.identity) as GameObject;
+			Debug.DrawLine (transform.position, point, Color.green, 10f);
+			Debug.Log (point);
+			SetFire.GetComponent<Fire> ().Player = Player;
+		}
+		
+		hit = Physics2D.Raycast (transform.position, -Vector2.up, (float)Size, 1 << layerMask);
+		
+		if (hit.collider == null) {
+			point = transform.position + (new Vector3 (0, -1, 0) * Size);
+			SetFire = Instantiate (FireS, point, Quaternion.identity) as GameObject;
+			Debug.DrawLine (transform.position, point, Color.green, 10f);
+			Debug.Log (point);
+			SetFire.GetComponent<Fire> ().Player = Player;
+		}
+		
 	}
-	public void Die()
+
+	public void AddBomb ()
+	{
+		Player.GetComponent<DarkPlayerController> ().BombNum++;
+		Die ();
+	}
+
+	public void Die ()
 	{
 
-		GameObject.DestroyObject(gameObject);
+		GameObject.DestroyObject (gameObject);
 	}
 }

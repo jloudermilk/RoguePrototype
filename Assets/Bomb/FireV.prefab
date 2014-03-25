@@ -9,11 +9,11 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 212: {fileID: 21200000}
-  - 58: {fileID: 5800000}
-  - 95: {fileID: 9500000}
   - 114: {fileID: 11400000}
+  - 95: {fileID: 9500000}
+  - 61: {fileID: 6100000}
   m_Layer: 0
-  m_Name: Bomb
+  m_Name: FireV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,12 +26,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 3.5674181, y: -4.34029961, z: -.910644531}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
---- !u!58 &5800000
-CircleCollider2D:
+--- !u!61 &6100000
+BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -39,7 +39,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Radius: .5
+  m_Size: {x: 1, y: 1}
   m_Center: {x: 0, y: 0}
 --- !u!95 &9500000
 Animator:
@@ -50,7 +50,7 @@ Animator:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: eae8a6e5eed3f3d4995441cdcdeff907, type: 2}
+  m_Controller: {fileID: 9100000, guid: 47384a8479a7b824287cc857e8df5e8a, type: 2}
   m_CullingMode: 0
   m_ApplyRootMotion: 1
   m_AnimatePhysics: 0
@@ -63,21 +63,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf98dd941057d624a9788c2a10ee4b3b, type: 3}
+  m_Script: {fileID: 11500000, guid: 5872f56cd3a2f84449a262c37a318657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
-  FireN: {fileID: 100000, guid: 83e0e86d1bcc3c146b9d34e44b8b8a39, type: 2}
-  FireS: {fileID: 100000, guid: c897e7559938fca42b198318e5309f7c, type: 2}
-  FireE: {fileID: 100000, guid: 2e02f4a0586ef20428640c4b32ab5355, type: 2}
-  FireW: {fileID: 100000, guid: 873bd2604b65b3d4fb2ad917cf0505d2, type: 2}
-  FireH: {fileID: 100000, guid: 3bf2bee41fd06ad4f9ad9f41f1c43437, type: 2}
-  FireV: {fileID: 100000, guid: a2b68195d1d459540b43a14c923c6d53, type: 2}
-  Timer: 2
-  Size: 1
   animator: {fileID: 0}
   clipTime: 0
-  exploded: 0
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -99,7 +90,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortingLayerID: 0
-  m_Sprite: {fileID: 21300000, guid: c11e464afe6e06044b5cebbc2cfc5f1b, type: 3}
+  m_Sprite: {fileID: 21300046, guid: c11e464afe6e06044b5cebbc2cfc5f1b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:

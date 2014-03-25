@@ -8,6 +8,7 @@ public class DarkPlayerController : MonoBehaviour {
 	public int BombNum = 1;
 	public int BombSize = 1;
 	public Vector2 test;
+	public Vector2 bombSpot; 
 	RaycastHit hit;
 
 
@@ -22,7 +23,7 @@ public class DarkPlayerController : MonoBehaviour {
 		animator.SetFloat("SpeedX",targetVelocity.x);
 		animator.SetFloat("SpeedY",targetVelocity.y);
 
-		
+		TileTest();
 	
 		if(Input.GetButtonDown("Fire1") && BombNum >0)
 		{
@@ -30,22 +31,47 @@ public class DarkPlayerController : MonoBehaviour {
 			PlaceBomb();
 
 		}
+
+
+
 	}
+	void TileTest()
+	{
+		Vector2 pos = transform.position;
+		float fX, fY;
+		int iX, iY;
+		iX = (int) pos.x;
+		fX = pos.x;
+		iY = (int) pos.y * -1;
+		fY = pos.y * -1;
+
+
+		if(fX -iX >= .5)
+		{
+			test.x = iX+1;
+		}
+		else
+		{
+			test.x = iX;
+		}
+		if(fY -iY >= .5)
+		{
+			test.y = (iY+1) * -1;
+		}
+		else
+		{
+			test.y = (iY) * -1;
+		}
+	}
+
+
 	void LateUpdate(){
 		if(Input.GetKeyDown(KeyCode.Escape)){
 			Application.Quit();
 		}
 	}
 
-	void OnTriggerEnter2D(Collider2D other)
-	{
-	
 
-		if(!other.gameObject.layer.ToString().Equals("8")){
-
-			test = other.transform.position;
-		}
-	}
 
 	public void PlaceBomb()
 	{
@@ -53,5 +79,6 @@ public class DarkPlayerController : MonoBehaviour {
 		GameObject SetBomb = Instantiate(Bomb,test,Quaternion.identity) as GameObject;
 	
 		SetBomb.GetComponent<Bomb>().Player = gameObject;
+		SetBomb.GetComponent<Bomb>().Size =BombSize;
 	}
 }

@@ -2,9 +2,10 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Bomb\Scripts\Bomb.cs">
     <Files>
-      <File FileName="Assets\Bomb\Scripts\Bomb.cs" Line="45" Column="9" />
-      <File FileName="Assets\Player\Scripts\DarkPlayerController.cs" Line="14" Column="9" />
-      <File FileName="Assets\Bomb\Scripts\Fire.cs" Line="24" Column="3" />
+      <File FileName="Assets\Player\Scripts\DarkPlayerController.cs" Line="70" Column="23" />
+      <File FileName="Assets\Bomb\Scripts\Bomb.cs" Line="52" Column="27" />
+      <File FileName="Assets\Bomb\Scripts\Fire.cs" Line="1" Column="1" />
+      <File FileName="c:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Editor\DunGeneratorInspector.cs" Line="11" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -19,8 +20,7 @@
       <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Scripts\DunGenerator.cs" line="152" />
       <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Bomb\Bomb.cs" line="49" />
       <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Bomb\Bomb.cs" line="36" />
-      <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Bomb\Scripts\Bomb.cs" line="44" />
-      <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Bomb\Scripts\Bomb.cs" line="45" />
+      <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Bomb\Scripts\Bomb.cs" line="38" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

@@ -17,7 +17,7 @@ AnimationClip:
   m_FloatCurves: []
   m_PPtrCurves:
   - curve:
-    - time: -0
+    - time: .0500000007
       value: {fileID: 21300014, guid: c11e464afe6e06044b5cebbc2cfc5f1b, type: 3}
     - time: .166666672
       value: {fileID: 21300012, guid: c11e464afe6e06044b5cebbc2cfc5f1b, type: 3}
@@ -37,7 +37,7 @@ AnimationClip:
   m_AnimationClipSettings:
     serializedVersion: 2
     m_StartTime: 0
-    m_StopTime: .516666651
+    m_StopTime: .666666687
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -53,4 +53,11 @@ AnimationClip:
     m_Mirror: 0
   m_EditorCurves: []
   m_EulerEditorCurves: []
-  m_Events: []
+  m_Events:
+  - time: .666666687
+    functionName: Die
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
