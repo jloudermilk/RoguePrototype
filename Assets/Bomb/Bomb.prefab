@@ -63,10 +63,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf98dd941057d624a9788c2a10ee4b3b, type: 3}
+  m_Script: {fileID: 11500000, guid: e1c6e10f1119935449ec2f4c4ffa1d6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
+  Player: {fileID: 100000, guid: 83e0e86d1bcc3c146b9d34e44b8b8a39, type: 2}
   FireN: {fileID: 100000, guid: 83e0e86d1bcc3c146b9d34e44b8b8a39, type: 2}
   FireS: {fileID: 100000, guid: c897e7559938fca42b198318e5309f7c, type: 2}
   FireE: {fileID: 100000, guid: 2e02f4a0586ef20428640c4b32ab5355, type: 2}

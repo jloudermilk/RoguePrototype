@@ -27,7 +27,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .0141620487, y: .264040589, z: -2}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -55,8 +55,8 @@ CircleCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Radius: .200000003
-  m_Center: {x: 0, y: -.25}
+  m_Radius: .300000012
+  m_Center: {x: 0, y: -.150000006}
 --- !u!95 &9500000
 Animator:
   serializedVersion: 2
@@ -85,6 +85,11 @@ MonoBehaviour:
   targetVelocity: {x: 0, y: 0}
   Bomb: {fileID: 100000, guid: e80d5b7ea9e512e43a3ce7fe541bde72, type: 2}
   BombNum: 1
+  BombSize: 1
+  PlayerSpeed: 2.5
+  PlayerNum: 2
+  test: {x: 0, y: 0}
+  bombSpot: {x: 0, y: 0}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -104,7 +109,7 @@ SpriteRenderer:
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_SortingLayerID: 0
   m_Sprite: {fileID: 21300006, guid: 930e1cc77ff394147b9a432620d2b469, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

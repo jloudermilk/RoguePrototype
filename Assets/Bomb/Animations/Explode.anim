@@ -55,7 +55,7 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_Events:
   - time: .666666687
-    functionName: AddBomb
+    functionName: BombPlus
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

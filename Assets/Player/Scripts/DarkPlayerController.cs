@@ -7,6 +7,7 @@ public class DarkPlayerController : MonoBehaviour {
 	public GameObject Bomb;
 	public int BombNum = 1;
 	public int BombSize = 1;
+	public float PlayerSpeed = 2.5f;
 	public int PlayerNum = 1;
 	public Vector2 test;
 	public Vector2 bombSpot; 
@@ -20,7 +21,7 @@ public class DarkPlayerController : MonoBehaviour {
 	}
 	void FixedUpdate () {
 		targetVelocity = new Vector2( Input.GetAxis("Horizontal"+ PlayerNum.ToString()), -Input.GetAxis("Vertical"+ PlayerNum.ToString()));
-		rigidbody2D.velocity=targetVelocity * 2.5f;
+		rigidbody2D.velocity=targetVelocity * PlayerSpeed;
 		animator.SetFloat("SpeedX",targetVelocity.x);
 		animator.SetFloat("SpeedY",targetVelocity.y);
 
@@ -92,7 +93,8 @@ public class DarkPlayerController : MonoBehaviour {
 	}
 	public void Kill()
 	{
-		renderer.material.color = Color.red;
+
+		GetComponent<SpriteRenderer>().color = Color.red;
 		animator.Play("Idle");
 		Destroy(this);
 	
