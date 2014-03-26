@@ -1,26 +1,31 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Bomb\Scripts\Bomb.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Player\Scripts\DarkPlayerController.cs">
     <Files>
-      <File FileName="Assets\Player\Scripts\DarkPlayerController.cs" Line="70" Column="23" />
-      <File FileName="Assets\Bomb\Scripts\Bomb.cs" Line="52" Column="27" />
+      <File FileName="Assets\Props\Scripts\Crate.cs" Line="15" Column="10" />
       <File FileName="Assets\Bomb\Scripts\Fire.cs" Line="1" Column="1" />
-      <File FileName="c:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Editor\DunGeneratorInspector.cs" Line="11" Column="3" />
+      <File FileName="Assets\Bomb\Scripts\Bomb.cs" Line="1" Column="1" />
+      <File FileName="Assets\Player\Scripts\DarkPlayerController.cs" Line="29" Column="43" />
+      <File FileName="Assets\Props\Scripts\BombPlus.cs" Line="1" Column="1" />
+      <File FileName="Assets\Props\Scripts\SizePlus.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\TileMapData\TileMapData.cs" line="83" />
-      <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\TileMapData\TileMapData.cs" line="107" />
-      <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Scripts\DunGenerator.cs" line="396" />
-      <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Scripts\DunGenerator.cs" line="404" />
-      <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Scripts\DunGenerator.cs" line="403" />
-      <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Scripts\DunGenerator.cs" line="269" />
-      <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Scripts\DunGenerator.cs" line="263" />
-      <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Scripts\DunGenerator.cs" line="152" />
-      <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Bomb\Bomb.cs" line="49" />
-      <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Bomb\Bomb.cs" line="36" />
-      <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Bomb\Scripts\Bomb.cs" line="38" />
+      <Breakpoint enabled="false" file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\TileMapData\TileMapData.cs" line="83" />
+      <Breakpoint enabled="false" file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\TileMapData\TileMapData.cs" line="107" />
+      <Breakpoint enabled="false" file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Scripts\DunGenerator.cs" line="396" />
+      <Breakpoint enabled="false" file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Scripts\DunGenerator.cs" line="404" />
+      <Breakpoint enabled="false" file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Scripts\DunGenerator.cs" line="403" />
+      <Breakpoint enabled="false" file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Scripts\DunGenerator.cs" line="269" />
+      <Breakpoint enabled="false" file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Scripts\DunGenerator.cs" line="263" />
+      <Breakpoint enabled="false" file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Scripts\DunGenerator.cs" line="152" />
+      <Breakpoint enabled="false" file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Bomb\Bomb.cs" line="49" />
+      <Breakpoint enabled="false" file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Bomb\Bomb.cs" line="36" />
+      <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Props\Scripts\Crate.cs" line="22" />
+      <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Bomb\Scripts\Fire.cs" line="25" />
+      <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Props\Scripts\SizePlus.cs" line="17" />
+      <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Player\Scripts\DarkPlayerController.cs" line="32" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

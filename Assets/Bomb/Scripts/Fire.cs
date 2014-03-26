@@ -15,14 +15,15 @@ public class Fire : MonoBehaviour {
 		DieEvent = new AnimationEvent();
 		DieEvent.functionName = "Die";
 	}
-	
-	// Update is called once per frame
-	void Update () {
 
-	}
 	public void Die()
-	{
-		
+	{	
 		GameObject.DestroyObject(gameObject);
+	}
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		other.gameObject.SendMessage("Bust",SendMessageOptions.DontRequireReceiver);
+		other.gameObject.SendMessage("Kill",SendMessageOptions.DontRequireReceiver);
+		other.gameObject.SendMessage("Explode",SendMessageOptions.DontRequireReceiver);
 	}
 }

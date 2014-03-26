@@ -18,28 +18,30 @@ public class Bomb : MonoBehaviour
 	public AnimationEvent ReloadEvent;
 	public AnimationEvent DieEvent;
 	public bool exploded = false;
-
+	
 	// Use this for initialization
 	void Start ()
 	{
 		animator = GetComponent<Animator> ();
 		ReloadEvent = new AnimationEvent ();
-		ReloadEvent.functionName = "AddBomb";
-		DieEvent = new AnimationEvent ();
-		DieEvent.functionName = "Die";
+		ReloadEvent.functionName = "BombPlus";
 	}
-
-	// Update is called once per frame
 	void Update ()
 	{
 		clipTime = animator.GetCurrentAnimatorStateInfo (0).length;
+
 		elapsedTime += Time.deltaTime;
 		if (elapsedTime > Timer && !exploded) {
 			Expode();
 		}
 	}
+	// Update is called once per frame
 
-	void Expode ()
+	void OnTriggerExit2D(Collider2D other)
+	{
+		transform.collider2D.isTrigger = false;
+	}
+	public void Expode ()
 	{
 		
 		exploded = true;
@@ -48,7 +50,7 @@ public class Bomb : MonoBehaviour
 		RaycastHit2D hit;
 		GameObject SetFire;
 		Vector3 point;
-
+		
 		for (int i = 1; i < Size; i++) {
 			hit = Physics2D.Raycast (transform.position, Vector2.right, (float)i, 1 << layerMask);
 			
@@ -89,9 +91,9 @@ public class Bomb : MonoBehaviour
 				Debug.Log (point);
 				SetFire.GetComponent<Fire> ().Player = Player;
 			}
-
+			
 		}
-
+		
 		hit = Physics2D.Raycast (transform.position, Vector2.right, (float)Size, 1 << layerMask);
 		
 		if (hit.collider == null) {
@@ -133,16 +135,16 @@ public class Bomb : MonoBehaviour
 		}
 		
 	}
-
-	public void AddBomb ()
+	
+	public void BombPlus ()
 	{
-		Player.GetComponent<DarkPlayerController> ().BombNum++;
+		Player.SendMessage("AddBomb",SendMessageOptions.DontRequireReceiver);
 		Die ();
 	}
-
+	
 	public void Die ()
 	{
-
+		
 		GameObject.DestroyObject (gameObject);
 	}
 }

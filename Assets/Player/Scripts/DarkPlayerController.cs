@@ -7,6 +7,7 @@ public class DarkPlayerController : MonoBehaviour {
 	public GameObject Bomb;
 	public int BombNum = 1;
 	public int BombSize = 1;
+	public int PlayerNum = 1;
 	public Vector2 test;
 	public Vector2 bombSpot; 
 	RaycastHit hit;
@@ -18,14 +19,15 @@ public class DarkPlayerController : MonoBehaviour {
 	
 	}
 	void FixedUpdate () {
-		targetVelocity = new Vector2( Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+		targetVelocity = new Vector2( Input.GetAxis("Horizontal"+ PlayerNum.ToString()), -Input.GetAxis("Vertical"+ PlayerNum.ToString()));
 		rigidbody2D.velocity=targetVelocity * 2.5f;
 		animator.SetFloat("SpeedX",targetVelocity.x);
 		animator.SetFloat("SpeedY",targetVelocity.y);
 
 		TileTest();
-	
-		if(Input.GetButtonDown("Fire1") && BombNum >0)
+
+		Debug.Log("Fire"+PlayerNum.ToString()) ;
+		if(Input.GetButtonDown("Fire"+PlayerNum.ToString()) && BombNum >0)
 		{
 			BombNum--;
 			PlaceBomb();
@@ -71,7 +73,14 @@ public class DarkPlayerController : MonoBehaviour {
 		}
 	}
 
-
+	public void AddBomb()
+	{
+		BombNum++;
+	}
+	public void IncreaseSize()
+	{
+		BombSize++;
+	}
 
 	public void PlaceBomb()
 	{
@@ -80,5 +89,13 @@ public class DarkPlayerController : MonoBehaviour {
 	
 		SetBomb.GetComponent<Bomb>().Player = gameObject;
 		SetBomb.GetComponent<Bomb>().Size =BombSize;
+	}
+	public void Kill()
+	{
+		renderer.material.color = Color.red;
+		animator.Play("Idle");
+		Destroy(this);
+	
+
 	}
 }
