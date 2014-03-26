@@ -11,7 +11,7 @@ public class Crate : MonoBehaviour {
 	{
 		if(Items.Length > 0)
 		{
-			int i = Random.Range(0, Items.Length+10);
+			int i = Random.Range(0, Items.Length);
 			if(i <Items.Length)
 			GameObject.Instantiate(Items[i],transform.position, Quaternion.identity);
 		}

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-[RequireComponent(typeof(TileMap))]
+[RequireComponent(typeof(TileMapTest))]
 public class TileMapMouse : MonoBehaviour {
 	TileMapTest tileMap;
 	public Vector3 currentTileCoord;
