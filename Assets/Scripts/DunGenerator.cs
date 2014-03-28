@@ -13,6 +13,7 @@ public class DunGenerator : MonoBehaviour
 	public int numChambers = 1;
 	public int verticesCount = 4;
 	public int tileSize = 1;
+	public string SeedNumber;
 
 	public struct roomConnection
 	{
@@ -40,10 +41,18 @@ public class DunGenerator : MonoBehaviour
 		BuildMesh (0);
 	}
 
+
 	public void BuildMesh (uint seed)
 	{
+
+		Chams.ForEach(delegate {
+			GameObject.Destroy(gameObject);
+	});
+		Chams.Clear();
 		if (seed != 0)
 			SimpleRNG.SetSeed (seed);
+
+		SeedNumber = SimpleRNG.m_w.ToString();
 
 		BigRooms = new List<roomConnection> ();
 		Vector3[] vertices = new Vector3[0];
@@ -89,7 +98,7 @@ public class DunGenerator : MonoBehaviour
 					
 					vertCount = z * vSizeX + x;
 					//we need length of tiles + 1
-					vertices [vertCount].Set (x * tileSize, 0, -z * tileSize);
+					vertices [vertCount].Set (x * tileSize - (vSizeX/2), 0, -z * tileSize + (vSizeZ/2));
 					//all normals point up
 					normals [vertCount].Set (0, 1, 0); 
 					//seting UV Coord
@@ -139,17 +148,19 @@ public class DunGenerator : MonoBehaviour
 			cham.GetComponent<ChamberTest> ().Copy (c);
 			Chams.Add (cham);
 		}
-		for (int i = 0; i < 100; i++) {
+
+	 	for (int i = 0; i < 20; i++) {
 			
 			SortChambers ();
 		}
+		 
 		for (int i = 0; i < numChambers; i++) {
 			if (CList[i].Width > 6 && CList[i].Height > 6) {
 		
 				roomConnection temp = new roomConnection ();
 				temp.d1 = temp.d2 = Mathf.Infinity;
-				temp.root = new Vector3 (CList[i].CenterX, 0,CList[i].CenterY);
-				BigRooms.Add (temp);	
+				temp.root = new Vector3 (CList[i].CenterX , 0,CList[i].CenterY);
+				BigRooms.Add (temp);
 			}
 		}
 		

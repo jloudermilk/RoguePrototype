@@ -13,10 +13,12 @@ namespace SRNG
     /// </summary>
     public class SimpleRNG
     {
-        private static uint m_w;
-        private static uint m_z;
+        public static uint m_w;
+       	public static uint m_z;
 
-        static SimpleRNG()
+
+        
+		static SimpleRNG()
         {
             // These values are not magical, just the default values Marsaglia used.
             // Any pair of unsigned integers should be fine.

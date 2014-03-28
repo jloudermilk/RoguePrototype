@@ -150,7 +150,7 @@ public class Chamber
 			
 		return Overlapping = true;
 	}
-		
+	/*
 	public void Separate (Chamber other)
 	{
 		float distX = CenterX - other.CenterX;
@@ -174,8 +174,66 @@ public class Chamber
 		//			
 			
 	}
+	 */
+	/*
+	public void Separate (Chamber other)
+	{
+		float distX = CenterX - other.CenterX;
+		float distY = CenterY - other.CenterY;
+
+
+		float fromCenter1 = (CenterX * CenterX)  + (CenterY * CenterY);
+
+		float fromCenter2 = (other.CenterX * other.CenterX) + (other.CenterY * other.CenterY);
+		if(fromCenter1 > fromCenter2){
+		if (distX > 0) {
+			moveX++;
+		} else {
+			moveX--;
+		}
+		if (distY > 0) {
+			moveY++;
+		} else {
+			moveY--;
+		}
+	}
+	}
+	*/	
+	public void Separate (Chamber other)
+	{
+		float distX = CenterX - other.CenterX;
+		float distY = CenterY - other.CenterY;
 		
 		
+		float fromCenter1 = (CenterX * CenterX)  + (CenterY * CenterY);
+		
+		float fromCenter2 = (other.CenterX * other.CenterX) + (other.CenterY * other.CenterY);
+		if(fromCenter1 > fromCenter2){
+			if (distX > 0) {
+				moveX++;
+			} else {
+				moveX--;
+			}
+			if (distY > 0) {
+				moveY++;
+			} else {
+				moveY--;
+			}
+		}
+		else
+		{
+			if (distX < 0) {
+				other.moveX++;
+			} else {
+				other.moveX--;
+			}
+			if (distY < 0) {
+				other.moveY++;
+			} else {
+				other.moveY--;
+			}
+		}
+	}
 		
 }
 
