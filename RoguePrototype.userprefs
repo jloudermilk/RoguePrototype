@@ -2,13 +2,14 @@
   <MonoDevelop.Ide.Workspace />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\DunGenerator.cs">
     <Files>
-      <File FileName="Assets\Scripts\DunGenerator.cs" Line="48" Column="4" />
-      <File FileName="Assets\SimpleRNG\SimpleRNG.cs" Line="16" Column="32" />
-      <File FileName="Assets\Scripts\Chamber.cs" Line="230" Column="15" />
+      <File FileName="Assets\Scripts\DunGenerator.cs" Line="187" Column="34" />
+      <File FileName="Assets\Scripts\Chamber.cs" Line="149" Column="17" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Scripts\DunGenerator.cs" line="377" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
