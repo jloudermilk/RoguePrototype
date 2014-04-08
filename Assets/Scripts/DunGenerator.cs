@@ -16,23 +16,27 @@ public class DunGenerator : MonoBehaviour
 	public int sortPasses = 100;
 	public string SeedNumber;
 
-	public struct roomConnection
+	public struct DelNode
 	{
-		public	Vector3 root, n1, n2;
-		public	float d1, d2;
+		public Chamber c;
+		public List<DelNode> nodes ;
 	}
+
+
 	
 	public GameObject Room;
 	ChamberList CList;
+	ChamberList Bigrooms;
 	public List<GameObject> Chams;
-	public List<roomConnection> BigRooms;
-
-
+	public DelNode Root;
+	public LineRenderer lineRenderer;
 
 
 	// Use this for initialization
 	void Start ()
 	{
+		lineRenderer = gameObject.GetComponent<LineRenderer> ();
+		Root = new DelNode ();
 		BuildMesh ();
 
 	}
@@ -42,167 +46,29 @@ public class DunGenerator : MonoBehaviour
 		SimpleRNG.SetSeedFromSystemTime ();
 		BuildMesh (0);
 	}
-	/*
+
 	public void BuildMesh (uint seed)
 	{
-		
+		// seed up the random number generator
 		if (seed != 0)
 			SimpleRNG.SetSeed (seed);
-		
 		SeedNumber = SimpleRNG.m_w.ToString ();
-		
-		BigRooms = new List<roomConnection> ();
+
+
+
+		//initialize some variables for mesh generation
 		Vector3[] vertices = new Vector3[0];
 		Vector3[] normals = new Vector3[0];
 		Vector2[] uv = new Vector2[0];
-		
+		//Triangle list
 		int[] triangles = new int[0];
-		
-		CList = new ChamberList ();
-		Chamber c;
-		
-		for (int i = 0; i < numChambers; i++) {
-			
-			c = new Chamber ();
 
-			CList.Add (c);
-		}
-		
-		
-		for (int i = 0; i < numChambers; i++) {
-			
-			c = CList [i];
-			
-			
-			c.SetRange (maxX - minX, minX);
-			c.SetData ();
-			int numTiles = c.Width * c.Height;
-			int numTris = numTiles * 2;
-			
-			int vSizeX = c.Width + 1;
-			int vSizeZ = c.Height + 1;
-			int numVerts = vSizeX * vSizeZ;
-			
-			vertices = new Vector3[numVerts];
-			normals = new Vector3[numVerts];
-			uv = new Vector2[numVerts];
-			
-			triangles = new int[numTris * 3]; 
-			
-			int x, z, vertCount;
-			
-			for (z = 0; z< vSizeZ; z++) {
-				for (x = 0; x< vSizeX; x++) {
-					
-					vertCount = z * vSizeX + x;
-					//we need length of tiles + 1
-					vertices [vertCount].Set (x * tileSize - (vSizeX / 2), 0, -z * tileSize + (vSizeZ / 2));
-					//all normals point up
-					normals [vertCount].Set (0, 1, 0); 
-					//seting UV Coord
-					uv [vertCount] .Set ((float)x / c.Width, 1f - (float)z / c.Height);
-					
-				}
-				
-			}
-			for (z = 0; z< c.Height; z++) {
-				for (x = 0; x< c.Width; x++) {
-					int squareIndex = z * c.Width + x;
-					int triOffset = squareIndex * 6;
-					triangles [triOffset + 0] = z * vSizeX + x + 0;
-					triangles [triOffset + 1] = z * vSizeX + x + vSizeX + 1;
-					triangles [triOffset + 2] = z * vSizeX + x + vSizeX + 0;
-					
-					triangles [triOffset + 3] = z * vSizeX + x + 0;
-					triangles [triOffset + 4] = z * vSizeX + x + 1;
-					triangles [triOffset + 5] = z * vSizeX + x + vSizeX + 1;
-					
-				}
-			}
-			
-			
-			GameObject cham = GameObject.Instantiate (Room, new Vector3 (c.CenterX, 0, c.CenterY), Quaternion.identity) as GameObject;
-			//create Mesh and populate data;
-			Mesh mesh = new Mesh ();
-			
-			mesh.vertices = vertices;
-			mesh.triangles = triangles;
-			mesh.normals = normals;
-			mesh.uv = uv;
-			MeshFilter meshFilter = cham.GetComponent<MeshFilter> ();
-			MeshRenderer meshRender = cham.GetComponent<MeshRenderer> ();
-			MeshCollider meshCollider = cham.GetComponent<MeshCollider> ();
-			mesh.name = "Chamber " + i;
-			cham.name = "Chamber " + i;
-			if (c.Width > 6 && c.Height > 6) {
-				
-				
-				meshRender.renderer.material.color = new Color (1, 0, 0, 1);
-			}
-			
-			
-			meshFilter.mesh = mesh;
-			meshCollider.sharedMesh = mesh;
-			cham.GetComponent<ChamberTest> ().Copy (c);
-			Chams.Add (cham);
-		}
-		
-		for (int i = 0; i < 20; i++) {
-			
-			SortChambers ();
-		}
-		
-		for (int i = 0; i < numChambers; i++) {
-			if (CList [i].Width > 6 && CList [i].Height > 6) {
-				
-				roomConnection temp = new roomConnection ();
-				temp.d1 = temp.d2 = Mathf.Infinity;
-				temp.root = new Vector3 (CList [i].CenterX, 0, CList [i].CenterY);
-				BigRooms.Add (temp);
-			}
-		}
-		
-		for (int k = 0; k< BigRooms.Count; k++) {
-			for (int j = 0; j< BigRooms.Count; j++) {
-				if (k != j) {
-					float dis = Vector3.Distance (BigRooms [k].root, BigRooms [j].root);
-					
-					if (dis < BigRooms [k].d1) {
-						roomConnection r1 = BigRooms [k];
-						r1.d1 = dis;
-						r1.n1 = BigRooms [j].root;
-						BigRooms [k] = r1;
-					} else if (dis < BigRooms [k].d2) {
-						roomConnection r1 = BigRooms [k];
-						r1.d2 = dis;
-						r1.n2 = BigRooms [j].root;
-						BigRooms [k] = r1;
-					}
-				}
-			}
-		}
-		
-	}
-	*/
-	public void BuildMesh (uint seed)
-	{
-		
-		if (seed != 0)
-			SimpleRNG.SetSeed (seed);
-		
-		SeedNumber = SimpleRNG.m_w.ToString ();
-		
-		BigRooms = new List<roomConnection> ();
-		Vector3[] vertices = new Vector3[0];
-		Vector3[] normals = new Vector3[0];
-		Vector2[] uv = new Vector2[0];
-		
-		int[] triangles = new int[0];
-		
+
+		// the list of Chamber data structures 
 		CList = new ChamberList ();
 		Chamber c;
 
-		 
+		//generate a bunch of chambers with randomize data
 		for (int i = 0; i < numChambers; i++) {
 			
 			c = new Chamber ();
@@ -210,21 +76,23 @@ public class DunGenerator : MonoBehaviour
 			c.SetData ();
 			CList.Add (c);
 		}
-		for (int i = 0; i < sortPasses; i++) 
-		{
+
+		//sort through the chambers to have them spaced out
+		// after a number of passes remove remaining overlaps 
+		for (int i = 0; i < sortPasses; i++) {
 			SortChambers ();
-			if(i == sortPasses-1)
-			{
-				for (int j = CList.Count-1; j> 0; j--) 
-				{
-					if(CList[j].Overlapping)
-					{
-						CList.RemoveAt(j);
+			if (i == sortPasses - 1) {
+				for (int j = CList.Count-1; j> 0; j--) {
+					if (CList [j].Overlapping) {
+						CList.RemoveAt (j);
 					}
 				}
 			}
 		}
-		
+
+
+		//generate Mesh data and create game objects that contain those meshes
+		//will be moved to a single container
 		for (int i = 0; i < CList.Count; i++) {
 			
 			c = CList [i];
@@ -300,45 +168,69 @@ public class DunGenerator : MonoBehaviour
 		}
 		
 
-		
+		// find all the Larger rooms
 		for (int i = 0; i < CList.Count; i++) {
 			if (CList [i].Width > 6 && CList [i].Height > 6) {
-				
-				roomConnection temp = new roomConnection ();
-				temp.d1 = temp.d2 = Mathf.Infinity;
-				temp.root = new Vector3 (CList [i].CenterX, 0, CList [i].CenterY);
-				BigRooms.Add (temp);
+				Bigrooms.Add (CList [i]);
 			}
 		}
-		
-		for (int k = 0; k< BigRooms.Count; k++) {
-			for (int j = 0; j< BigRooms.Count; j++) {
-				if (k != j) {
-					float dis = Vector3.Distance (BigRooms [k].root, BigRooms [j].root);
-					
-					if (dis < BigRooms [k].d1) {
-						roomConnection r1 = BigRooms [k];
-						r1.d1 = dis;
-						r1.n1 = BigRooms [j].root;
-						BigRooms [k] = r1;
-					} else if (dis < BigRooms [k].d2) {
-						roomConnection r1 = BigRooms [k];
-						r1.d2 = dis;
-						r1.n2 = BigRooms [j].root;
-						BigRooms [k] = r1;
-					}
+		Root.nodes = new List<DelNode>(Bigrooms.Count);
+
+		for (int i = 0; i < Bigrooms.Count-3; i++) {
+			Root.nodes[i].c = Bigrooms[i];
+			Root.nodes.nodes = new List<DelNode>(Bigrooms.Count - i);
+			for (int j = i+1; j < Bigrooms.Count-3; j++) {
+				Root.nodes[i].nodes[j].c =Bigrooms [j];
+				Root.nodes.nodes.nodes = new List<DelNode>(Bigrooms.Count - j);
+				for (int k = j+1; k < Bigrooms.Count-3; k++) {
+					Root.nodes[i].nodes[j].nodes[k].c =Bigrooms [k];
 				}
 			}
+		
 		}
+
 		
 	}
 
 	void Update ()
 	{
-		foreach (roomConnection r1 in BigRooms) {
-			Debug.DrawLine (r1.root, r1.n1, Color.green, 1f);
-			Debug.DrawLine (r1.root, r1.n2, Color.green, 1f);
+
+		for (int i = 0; i < Bigrooms.Count; i++) {
+			Root.nodes[i].
+			for (int j = i+1; j < Bigrooms.Count; j++) {
+				Root.nodes [i].nodes.Add (Bigrooms [j]);
+				for (int k = j+1; k < Bigrooms.Count; k++) {
+					Root.nodes [i].nodes [j].nodes.Add (Bigrooms [k]);
+				}
+			}
+			
 		}
+		DrawCircle (10, new Vector2 (0, 0));
+
+	}
+
+	void DrawCircle (float radius, Vector2 center)
+	{
+		float theta_scale = 0.1f;             //Set lower to add more points
+		float RHO = (2.0f * Mathf.PI);
+
+		int size = (int)(RHO / theta_scale); //Total number of points in circle.
+
+		lineRenderer.material = new Material (Shader.Find ("Particles/Additive"));
+		lineRenderer.SetColors (Color.red, Color.red);
+		lineRenderer.SetWidth (0.2F, 0.2F);
+		lineRenderer.SetVertexCount (size + 1);
+		float x, y;
+		int i = 0;
+		for (float theta = 0f; theta < RHO; theta += 0.1f) {
+			x = radius * Mathf.Cos (theta) + center.x;
+			y = radius * Mathf.Sin (theta) + center.y;
+			
+			Vector3 pos = new Vector3 (x, 1, y);
+			lineRenderer.SetPosition (i, pos);
+			i += 1;
+		}
+		i = 0;
 	}
 	/*
 	public void SortChambers ()
