@@ -16,7 +16,7 @@ public class DunGenerator : MonoBehaviour
 	public int tileSize = 1;
 	public int sortPasses = 100;
 	public string SeedNumber;
-
+	Delaunay del;
 	public class DelNode
 	{
 		public Chamber chamber;
@@ -178,19 +178,28 @@ public class DunGenerator : MonoBehaviour
 				vertexList.Add(new Point2D(CList[i].CenterX,CList[i].CenterY));
 			}
 		}
-		DrawCircle (10, new Vector2 (0, 0));
+		vertexList.Sort();
 		MakeDelaunay();
 		
 	}
 
 	void Update ()
 	{
-
+		foreach(Triangle tri in del.triList)
+		{
+			Vector3 pointA,pointB,pointC;
+			pointA = new Vector3(tri.A.x,0,tri.A.y);
+			pointB = new Vector3(tri.B.x,0,tri.B.y);
+			pointC = new Vector3(tri.C.x,0,tri.C.y);
+			Debug.DrawLine(pointA,pointB,Color.green,1f);
+			Debug.DrawLine(pointB,pointC,Color.green,1f);
+			Debug.DrawLine(pointC,pointA,Color.green,1f);
+		}
 	}
 
 	public void MakeDelaunay()
 	{
-		Delaunay del = new Delaunay();
+		del = new Delaunay();
 
 		del.Triangulate(vertexList);
 

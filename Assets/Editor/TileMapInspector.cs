@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(TileMap))]
+[CustomEditor(typeof(TileMapTest))]
 public class TileMapInspector : Editor {
 	TileMapTest tileMap;
 	public override void OnInspectorGUI()
