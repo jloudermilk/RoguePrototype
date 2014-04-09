@@ -1,5 +1,6 @@
 using UnityEngine;
 using SRNG;
+using Delauney;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(MeshFilter))]
@@ -16,13 +17,15 @@ public class DunGenerator : MonoBehaviour
 	public int sortPasses = 100;
 	public string SeedNumber;
 
-	public struct DelNode
+	public class DelNode
 	{
-		public Chamber c;
-		public List<DelNode> nodes ;
+		public Chamber chamber;
+		public Dictionary<Chamber, DelNode> Edges = new Dictionary<Chamber, DelNode> ();
+
 	}
 
 
+	public List<Point2D> vertexList;
 	
 	public GameObject Room;
 	ChamberList CList;
@@ -37,6 +40,7 @@ public class DunGenerator : MonoBehaviour
 	{
 		lineRenderer = gameObject.GetComponent<LineRenderer> ();
 		Root = new DelNode ();
+		vertexList = new List<Point2D>();
 		BuildMesh ();
 
 	}
@@ -171,41 +175,24 @@ public class DunGenerator : MonoBehaviour
 		// find all the Larger rooms
 		for (int i = 0; i < CList.Count; i++) {
 			if (CList [i].Width > 6 && CList [i].Height > 6) {
-				Bigrooms.Add (CList [i]);
+				vertexList.Add(new Point2D(CList[i].CenterX,CList[i].CenterY));
 			}
 		}
-		Root.nodes = new List<DelNode>(Bigrooms.Count);
-
-		for (int i = 0; i < Bigrooms.Count-3; i++) {
-			Root.nodes[i].c = Bigrooms[i];
-			Root.nodes.nodes = new List<DelNode>(Bigrooms.Count - i);
-			for (int j = i+1; j < Bigrooms.Count-3; j++) {
-				Root.nodes[i].nodes[j].c =Bigrooms [j];
-				Root.nodes.nodes.nodes = new List<DelNode>(Bigrooms.Count - j);
-				for (int k = j+1; k < Bigrooms.Count-3; k++) {
-					Root.nodes[i].nodes[j].nodes[k].c =Bigrooms [k];
-				}
-			}
-		
-		}
-
+		DrawCircle (10, new Vector2 (0, 0));
+		MakeDelaunay();
 		
 	}
 
 	void Update ()
 	{
 
-		for (int i = 0; i < Bigrooms.Count; i++) {
-			Root.nodes[i].
-			for (int j = i+1; j < Bigrooms.Count; j++) {
-				Root.nodes [i].nodes.Add (Bigrooms [j]);
-				for (int k = j+1; k < Bigrooms.Count; k++) {
-					Root.nodes [i].nodes [j].nodes.Add (Bigrooms [k]);
-				}
-			}
-			
-		}
-		DrawCircle (10, new Vector2 (0, 0));
+	}
+
+	public void MakeDelaunay()
+	{
+		Delaunay del = new Delaunay();
+
+		del.Triangulate(vertexList);
 
 	}
 

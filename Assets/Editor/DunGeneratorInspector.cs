@@ -7,8 +7,8 @@ public class DunGeneratorInspector : Editor{
 
 
 		
+	DunGenerator dunGen;
 		
-		DunGenerator dunGen;
 		public override void OnInspectorGUI()
 		{
 			base.OnInspectorGUI();
