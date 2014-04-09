@@ -14,31 +14,40 @@ namespace Delauney
 {
 	public class Point2D
 	{
-		public float x,y;
-		public Point2D()
+		public float x, y;
+
+		public Point2D ()
 		{
 			x = 0;
 			y = 0;
 		}
-		public Point2D(float a_X,float a_Y)
+
+		public Point2D (float a_X, float a_Y)
 		{
 			x = a_X;
 			y = a_Y;
 		}
-		public float Distance(Point2D A, Point2D B)
+
+		public float Distance (Point2D A, Point2D B)
 		{
-			return (float) Math.Sqrt((B.x +A.x)*(B.x +A.x) +(B.y +A.y)*(B.y +A.y));
+			return (float)Math.Sqrt ((B.x + A.x) * (B.x + A.x) + (B.y + A.y) * (B.y + A.y));
 		}
-		public float Distance(Point2D B)
+
+		public float Distance (Point2D B)
 		{
-			return (float) Math.Sqrt((B.x +x)*(B.x +x) +(B.y +y)*(B.y +y));
+			return (float)Math.Sqrt ((B.x + x) * (B.x + x) + (B.y + y) * (B.y + y));
 		}
 	}
+
 	public class Edge
 	{
-		public Point2D A,B; 
-		public Edge(){}
-		public Edge(Point2D a_A,Point2D a_B)
+		public Point2D A, B;
+
+		public Edge ()
+		{
+		}
+
+		public Edge (Point2D a_A, Point2D a_B)
 		{
 			A = a_A;
 			B = a_B;
@@ -46,119 +55,147 @@ namespace Delauney
 
 
 	}
+	
 	public class Circle
 	{
 		public Point2D center;
 		public float radius;
 		
-		public Circle()
+		public Circle ()
 		{
 			radius = 0;
-			center = new Point2D();
+			center = new Point2D ();
 		}
-		public bool Inside(Point2D B)
+
+		public bool Inside (Point2D B)
 		{
-			if(radius > center.Distance(B))
+			if (radius > center.Distance (B))
 				return true;
 			return false;
 		}
 		
 	}
+
 	public class Triangle
 	{
-		public Point2D A,B,C;
+		public Point2D A, B, C;
 		public Circle Circle;
-		public Edge AB
-		{
-			get{return new Edge(A,B);}
-		}
-		public Edge BC
-		{
-			get{return new Edge(B,C);}
-		}
-		public Edge CA
-		{
-			get{return new Edge(C,A);}
-		}
-		public Triangle(){}
 
-		public Triangle(Point2D a_A,Point2D a_B,Point2D a_C)
+		public Edge AB {
+			get{ return new Edge (A, B);}
+		}
+
+		public Edge BC {
+			get{ return new Edge (B, C);}
+		}
+
+		public Edge CA {
+			get{ return new Edge (C, A);}
+		}
+
+		public Triangle ()
+		{
+		}
+
+		public Triangle (Point2D a_A, Point2D a_B, Point2D a_C)
 		{
 			A = a_A;
 			B = a_B;
 			C = a_C;
-			CircumCircle();
+			CircumCircle ();
 		}
 
-		public Circle CircumCircle()
+		public Circle CircumCircle ()
 		{
-			Circle = new Circle();
-			if(Circle.radius == 0)
-			{
-				Circle.center = CircumCenter();
-				Circle.radius = Circle.center.Distance(A);
+			Circle = new Circle ();
+			if (Circle.radius == 0) {
+				Circle.center = CircumCenter ();
+				Circle.radius = Circle.center.Distance (A);
 			}
 			return Circle;
 
 		}
-		public Point2D CircumCenter()
+
+		public Point2D CircumCenter ()
 		{
-			Point2D center = new Point2D();
-			float Divisor = 2*(A.x*(B.y -C.y) + B.x*(C.y - A.y) + C.x*(A.y - B.y));
-			center.x = ((((A.x*A.x) + (A.y*A.y)) * (B.y-C.y)) + (((B.x*B.x) + (B.y*B.y)) * (C.y-A.y)) + (((C.x*C.x) + (C.y*C.y))* (A.y-B.y)))/Divisor;
-			center.y = ((((A.x*A.x) + (A.y*A.y)) * (C.x-B.x)) + (((B.x*B.x) + (B.y*B.y)) * (A.x-C.x)) + (((C.x*C.x) + (C.y*C.y))* (B.x-A.x)))/Divisor;
+			Point2D center = new Point2D ();
+			float Divisor = 2 * (A.x * (B.y - C.y) + B.x * (C.y - A.y) + C.x * (A.y - B.y));
+			center.x = ((((A.x * A.x) + (A.y * A.y)) * (B.y - C.y)) + (((B.x * B.x) + (B.y * B.y)) * (C.y - A.y)) + (((C.x * C.x) + (C.y * C.y)) * (A.y - B.y))) / Divisor;
+			center.y = ((((A.x * A.x) + (A.y * A.y)) * (C.x - B.x)) + (((B.x * B.x) + (B.y * B.y)) * (A.x - C.x)) + (((C.x * C.x) + (C.y * C.y)) * (B.x - A.x))) / Divisor;
 			return center;
 		}
 	}
 
+	//wrappers to overcome a mono debuggin error
+	public class Point2DList: List<Point2D>
+	{
+		public void SortX ()
+		{
+			Point2D temp = new Point2D ();
+			bool sorted = false;
+			while (!sorted) {
+				sorted = true;
+				for (int i = this.Count-1; i > 0; i--) {
+					if(this[i].x< this[i-1].x)
+					{
+						sorted = false;
+						temp = this[i-1];
+						this[i-1] = this[i];
+						this[i] = temp;
+					}
+				}
+			}
+		}
+	}
 
+	public class TriangleList:List<Triangle>
+	{
+	}
 
 	public class Delaunay
 	{
 
-		public List<Triangle> triList;
-		public List<Point2D> vertexList;
+		public TriangleList triList;
+		public Point2DList vertexList;
 
 		public Delaunay ()
 		{
 		}
-		public void Triangulate(List<Point2D> inputList)
-		{
-			vertexList = new List<Point2D>();
-			triList = new List<Triangle>();
-			vertexList = inputList;
-			triList.Add(new Triangle(vertexList[0],vertexList[1],vertexList[2]));
 
-			for(int i = 3; i < vertexList.Count;i++)
-			{
-				for(int j = triList.Count; j > 0; j--)
-				{
+		public void Triangulate (Point2DList inputList)
+		{
+			vertexList = new Point2DList ();
+			triList = new TriangleList ();
+			vertexList = inputList;
+			triList.Add (new Triangle (vertexList [0], vertexList [1], vertexList [2]));
+
+			for (int i = 3; i < vertexList.Count; i++) {
+				for (int j = triList.Count; j > 0; j--) {
 					bool tri1Check = false;
 					bool tri2Check = false;
 					bool tri3Check = false;
 
-					Triangle tri1 = new Triangle(triList[j-1].A,triList[j-1].B,vertexList[i]);
-					Triangle tri2 = new Triangle(triList[j-1].C,triList[j-1].B,vertexList[i]);
-					Triangle tri3 = new Triangle(triList[j-1].A,triList[j-1].C,vertexList[i]);
+					Triangle tri1 = new Triangle (triList [j - 1].A, triList [j - 1].B, vertexList [i]);
+					Triangle tri2 = new Triangle (triList [j - 1].C, triList [j - 1].B, vertexList [i]);
+					Triangle tri3 = new Triangle (triList [j - 1].A, triList [j - 1].C, vertexList [i]);
 
-					for(int k = 0; k <= i; k++ )
-					{
-						if(!tri1Check)
-							tri1Check = tri1.Circle.Inside(vertexList[k]);
+					for (int k = 0; k <= i; k++) {
+						if (!tri1Check)
+							tri1Check = tri1.Circle.Inside (vertexList [k]);
 
-						if(!tri2Check)
-							tri2Check = tri2.Circle.Inside(vertexList[k]);
+						if (!tri2Check)
+							tri2Check = tri2.Circle.Inside (vertexList [k]);
 
-						if(!tri3Check)
-							tri3Check = tri3.Circle.Inside(vertexList[k]);
+						if (!tri3Check)
+							tri3Check = tri3.Circle.Inside (vertexList [k]);
 					
 					}
-					if(!tri1Check)
-						triList.Add(tri1);
-					if(!tri2Check)
-						triList.Add(tri2);
-					if(!tri3Check)
-						triList.Add(tri3);
+					if (!tri1Check)
+						triList.Add (tri1);
+					if (!tri2Check)
+						triList.Add (tri2);
+					if (!tri3Check)
+						triList.Add (tri3);
 
 				}
 			}

@@ -17,21 +17,15 @@ public class DunGenerator : MonoBehaviour
 	public int sortPasses = 100;
 	public string SeedNumber;
 	Delaunay del;
-	public class DelNode
-	{
-		public Chamber chamber;
-		public Dictionary<Chamber, DelNode> Edges = new Dictionary<Chamber, DelNode> ();
-
-	}
 
 
-	public List<Point2D> vertexList;
+	public Point2DList vertexList;
 	
 	public GameObject Room;
 	ChamberList CList;
 	ChamberList Bigrooms;
 	public List<GameObject> Chams;
-	public DelNode Root;
+
 	public LineRenderer lineRenderer;
 
 
@@ -39,8 +33,7 @@ public class DunGenerator : MonoBehaviour
 	void Start ()
 	{
 		lineRenderer = gameObject.GetComponent<LineRenderer> ();
-		Root = new DelNode ();
-		vertexList = new List<Point2D>();
+		vertexList = new Point2DList();
 		BuildMesh ();
 
 	}
@@ -178,13 +171,15 @@ public class DunGenerator : MonoBehaviour
 				vertexList.Add(new Point2D(CList[i].CenterX,CList[i].CenterY));
 			}
 		}
-		vertexList.Sort();
+
+		vertexList.SortX();
 		MakeDelaunay();
 		
 	}
 
 	void Update ()
 	{
+		if(del.triList.Count >0)
 		foreach(Triangle tri in del.triList)
 		{
 			Vector3 pointA,pointB,pointC;
@@ -194,6 +189,8 @@ public class DunGenerator : MonoBehaviour
 			Debug.DrawLine(pointA,pointB,Color.green,1f);
 			Debug.DrawLine(pointB,pointC,Color.green,1f);
 			Debug.DrawLine(pointC,pointA,Color.green,1f);
+
+			DrawCircle(tri.Circle.radius,new Vector2(tri.Circle.center.x,tri.Circle.center.y));
 		}
 	}
 
@@ -202,6 +199,7 @@ public class DunGenerator : MonoBehaviour
 		del = new Delaunay();
 
 		del.Triangulate(vertexList);
+
 
 	}
 
