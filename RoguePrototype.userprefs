@@ -1,15 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Delaunay.cs">
     <Files>
-      <File FileName="Assets\Scripts\Delaunay.cs" Line="127" Column="3" />
-      <File FileName="Assets\Scripts\Chamber.cs" Line="1" Column="1" />
-      <File FileName="Assets\SimpleRNG\SimpleRNG.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\DunGenerator.cs" Line="350" Column="1" />
+      <File FileName="Assets\Scripts\Delaunay.cs" Line="165" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Users\justinl\Documents\GitHub\RoguePrototype\Assets\Scripts\Delaunay.cs" line="165" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

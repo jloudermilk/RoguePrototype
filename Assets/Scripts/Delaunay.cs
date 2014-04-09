@@ -124,21 +124,22 @@ namespace Delauney
 		}
 		public void Triangulate(List<Point2D> inputList)
 		{
-		
+			vertexList = new List<Point2D>();
+			triList = new List<Triangle>();
 			vertexList = inputList;
 			triList.Add(new Triangle(vertexList[0],vertexList[1],vertexList[2]));
 
 			for(int i = 3; i < vertexList.Count;i++)
 			{
-				for(int j = triList.Count; j < 0; j--)
+				for(int j = triList.Count; j > 0; j--)
 				{
 					bool tri1Check = false;
 					bool tri2Check = false;
 					bool tri3Check = false;
 
-					Triangle tri1 = new Triangle(triList[j].A,triList[j].B,vertexList[i]);
-					Triangle tri2 = new Triangle(triList[j].C,triList[j].B,vertexList[i]);
-					Triangle tri3 = new Triangle(triList[j].A,triList[j].C,vertexList[i]);
+					Triangle tri1 = new Triangle(triList[j-1].A,triList[j-1].B,vertexList[i]);
+					Triangle tri2 = new Triangle(triList[j-1].C,triList[j-1].B,vertexList[i]);
+					Triangle tri3 = new Triangle(triList[j-1].A,triList[j-1].C,vertexList[i]);
 
 					for(int k = 0; k <= i; k++ )
 					{
