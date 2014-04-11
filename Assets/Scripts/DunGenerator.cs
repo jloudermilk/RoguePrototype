@@ -26,13 +26,13 @@ public class DunGenerator : MonoBehaviour
 	ChamberList Bigrooms;
 	public List<GameObject> Chams;
 
-	public LineRenderer lineRenderer;
+
 
 
 	// Use this for initialization
 	void Start ()
 	{
-		lineRenderer = gameObject.GetComponent<LineRenderer> ();
+
 		vertexList = new Point2DList();
 		BuildMesh ();
 
@@ -173,6 +173,7 @@ public class DunGenerator : MonoBehaviour
 		}
 
 		vertexList.SortX();
+		//vertexList.RemoveRange(4,vertexList.Count-4);
 		MakeDelaunay();
 		
 	}
@@ -190,7 +191,7 @@ public class DunGenerator : MonoBehaviour
 			Debug.DrawLine(pointB,pointC,Color.green,1f);
 			Debug.DrawLine(pointC,pointA,Color.green,1f);
 
-			DrawCircle(tri.Circle.radius,new Vector2(tri.Circle.center.x,tri.Circle.center.y));
+	
 		}
 	}
 
@@ -202,30 +203,7 @@ public class DunGenerator : MonoBehaviour
 
 
 	}
-
-	void DrawCircle (float radius, Vector2 center)
-	{
-		float theta_scale = 0.1f;             //Set lower to add more points
-		float RHO = (2.0f * Mathf.PI);
-
-		int size = (int)(RHO / theta_scale); //Total number of points in circle.
-
-		lineRenderer.material = new Material (Shader.Find ("Particles/Additive"));
-		lineRenderer.SetColors (Color.red, Color.red);
-		lineRenderer.SetWidth (0.2F, 0.2F);
-		lineRenderer.SetVertexCount (size + 1);
-		float x, y;
-		int i = 0;
-		for (float theta = 0f; theta < RHO; theta += 0.1f) {
-			x = radius * Mathf.Cos (theta) + center.x;
-			y = radius * Mathf.Sin (theta) + center.y;
-			
-			Vector3 pos = new Vector3 (x, 1, y);
-			lineRenderer.SetPosition (i, pos);
-			i += 1;
-		}
-		i = 0;
-	}
+	
 	/*
 	public void SortChambers ()
 	{

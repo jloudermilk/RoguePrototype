@@ -35,7 +35,7 @@ namespace Delauney
 
 		public float Distance (Point2D B)
 		{
-			return (float)Math.Sqrt ((B.x + x) * (B.x + x) + (B.y + y) * (B.y + y));
+			return (float)Math.Sqrt ((B.x - x) * (B.x - x) + (B.y - y) * (B.y - y));
 		}
 	}
 
@@ -69,7 +69,8 @@ namespace Delauney
 
 		public bool Inside (Point2D B)
 		{
-			if (radius > center.Distance (B))
+			float dis = center.Distance(B);
+			if (radius >= dis)
 				return true;
 			return false;
 		}
@@ -83,6 +84,7 @@ namespace Delauney
 
 		public Edge AB {
 			get{ return new Edge (A, B);}
+
 		}
 
 		public Edge BC {
@@ -120,8 +122,21 @@ namespace Delauney
 		{
 			Point2D center = new Point2D ();
 			float Divisor = 2 * (A.x * (B.y - C.y) + B.x * (C.y - A.y) + C.x * (A.y - B.y));
-			center.x = ((((A.x * A.x) + (A.y * A.y)) * (B.y - C.y)) + (((B.x * B.x) + (B.y * B.y)) * (C.y - A.y)) + (((C.x * C.x) + (C.y * C.y)) * (A.y - B.y))) / Divisor;
-			center.y = ((((A.x * A.x) + (A.y * A.y)) * (C.x - B.x)) + (((B.x * B.x) + (B.y * B.y)) * (A.x - C.x)) + (((C.x * C.x) + (C.y * C.y)) * (B.x - A.x))) / Divisor;
+			float Ax2, Ay2, Bx2, By2, Cx2, Cy2, A2,B2,C2;
+			Ax2 = (A.x*A.x);
+			Bx2 = (B.x*B.x);
+			Cx2 = (C.x*C.x);
+
+			Ay2 = (A.y*A.y);
+			By2 = (B.y*B.y);
+			Cy2 = (C.y*C.y);
+
+			A2 = Ax2 + Ay2;
+			B2 = Bx2 + By2;
+			C2 = Cx2 + Cy2;
+
+			center.x = ((((A2) * (B.y - C.y)) + ((B2) * (C.y - A.y)) + ((C2) * (A.y - B.y))) / Divisor);
+			center.y = ((((A2) * (C.x - B.x)) + ((B2) * (A.x - C.x)) + ((C2) * (B.x - A.x))) / Divisor);
 			return center;
 		}
 	}
@@ -147,7 +162,9 @@ namespace Delauney
 			}
 		}
 	}
-
+	public class EdgeList:List<Edge>
+	{
+	}
 	public class TriangleList:List<Triangle>
 	{
 	}
@@ -156,17 +173,22 @@ namespace Delauney
 	{
 
 		public TriangleList triList;
+		public EdgeList eList;
 		public Point2DList vertexList;
 
 		public Delaunay ()
 		{
 		}
+		public void MakeEdgeList()
+		{
 
+		}
 		public void Triangulate (Point2DList inputList)
 		{
 			vertexList = new Point2DList ();
 			triList = new TriangleList ();
 			vertexList = inputList;
+
 			triList.Add (new Triangle (vertexList [0], vertexList [1], vertexList [2]));
 
 			for (int i = 3; i < vertexList.Count; i++) {
