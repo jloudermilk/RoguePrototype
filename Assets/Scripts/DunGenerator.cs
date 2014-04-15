@@ -172,15 +172,22 @@ public class DunGenerator : MonoBehaviour
 			}
 		}
 
+		del = new Delaunay();
+		del.eList = new EdgeList();
+		del.elist2 = new EdgeList();
 		vertexList.SortX();
-		//vertexList.RemoveRange(4,vertexList.Count-4);
-		MakeDelaunay();
+		for (int i = 0; i < vertexList.Count; i++) {
+			for (int j = i; j < vertexList.Count; j++) {
+				del.eList.Add(new Edge(vertexList[i],vertexList[j]));
+			}
+		}
+		del.Triangulate(vertexList);
 		
 	}
 
 	void Update ()
 	{
-		if(del.triList.Count >0)
+		/*if(del.triList.Count >0)
 		foreach(Triangle tri in del.triList)
 		{
 			Vector3 pointA,pointB,pointC;
@@ -192,12 +199,24 @@ public class DunGenerator : MonoBehaviour
 			Debug.DrawLine(pointC,pointA,Color.green,1f);
 
 	
+		}*/
+
+
+		/*	foreach(Edge e in del.eList)
+		{
+			Debug.DrawLine(new Vector3(e.A.x,0,e.A.y),new Vector3(e.B.x,0,e.B.y));
+		}*/
+		foreach(Edge e in del.elist2)
+		{
+			Debug.DrawLine(new Vector3(e.A.x,0,e.A.y),new Vector3(e.B.x,0,e.B.y),Color.green);
 		}
+
+
 	}
 
 	public void MakeDelaunay()
 	{
-		del = new Delaunay();
+
 
 		del.Triangulate(vertexList);
 

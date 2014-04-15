@@ -70,7 +70,7 @@ namespace Delauney
 		public bool Inside (Point2D B)
 		{
 			float dis = center.Distance(B);
-			if (radius >= dis)
+			if (radius > dis)
 				return true;
 			return false;
 		}
@@ -84,7 +84,6 @@ namespace Delauney
 
 		public Edge AB {
 			get{ return new Edge (A, B);}
-
 		}
 
 		public Edge BC {
@@ -173,7 +172,7 @@ namespace Delauney
 	{
 
 		public TriangleList triList;
-		public EdgeList eList;
+		public EdgeList eList, elist2;
 		public Point2DList vertexList;
 
 		public Delaunay ()
@@ -185,43 +184,47 @@ namespace Delauney
 		}
 		public void Triangulate (Point2DList inputList)
 		{
-			vertexList = new Point2DList ();
+
 			triList = new TriangleList ();
 			vertexList = inputList;
 
-			triList.Add (new Triangle (vertexList [0], vertexList [1], vertexList [2]));
-
-			for (int i = 3; i < vertexList.Count; i++) {
-				for (int j = triList.Count; j > 0; j--) {
-					bool tri1Check = false;
-					bool tri2Check = false;
-					bool tri3Check = false;
-
-					Triangle tri1 = new Triangle (triList [j - 1].A, triList [j - 1].B, vertexList [i]);
-					Triangle tri2 = new Triangle (triList [j - 1].C, triList [j - 1].B, vertexList [i]);
-					Triangle tri3 = new Triangle (triList [j - 1].A, triList [j - 1].C, vertexList [i]);
-
-					for (int k = 0; k <= i; k++) {
-						if (!tri1Check)
-							tri1Check = tri1.Circle.Inside (vertexList [k]);
-
-						if (!tri2Check)
-							tri2Check = tri2.Circle.Inside (vertexList [k]);
-
-						if (!tri3Check)
-							tri3Check = tri3.Circle.Inside (vertexList [k]);
-					
+			for (int i = 0; i < vertexList.Count-2; i++) {
+				for (int j = i+1; j < vertexList.Count-1; j++) {
+					for (int k = j+1; k < vertexList.Count; k++ ){
+						triList.Add( new Triangle(vertexList[i],vertexList[j],vertexList[k]));
 					}
-					if (!tri1Check)
-						triList.Add (tri1);
-					if (!tri2Check)
-						triList.Add (tri2);
-					if (!tri3Check)
-						triList.Add (tri3);
-
 				}
 			}
+
+			for (int i = triList.Count-1; i >= 0; i--) {
+				for (int j = 0; j < vertexList.Count ; j++) {
+					if(triList[i].Circle.Inside(vertexList[j]))
+					{
+						triList.RemoveAt(i);
+						break;
+					}
+				}
+
+			}
+			elist2 = new EdgeList();
+			foreach(Triangle tri in triList)
+			{
+				if(!elist2.Contains(tri.AB))
+				{
+					elist2.Add(tri.AB);
+				}
+				if(!elist2.Contains(tri.BC))
+				{
+					elist2.Add(tri.BC);
+				}
+				if(!elist2.Contains(tri.CA))
+				{
+					elist2.Add(tri.CA);
+				}
+			}
+
 			int z = 0;
+			z+=1;
 
 		}
 
