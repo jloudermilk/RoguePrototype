@@ -11,14 +11,14 @@ public class TileMapMouse : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		tileMap = GetComponent<TileMapTest>();
-		normalColor = renderer.material.color;
+		normalColor = GetComponent<Renderer>().material.color;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hitInfo;
-		if(collider.Raycast(ray,out hitInfo,Mathf.Infinity))
+		if(GetComponent<Collider>().Raycast(ray,out hitInfo,Mathf.Infinity))
 		{
 			int x = Mathf.FloorToInt(hitInfo.point.x /tileMap.tileSize);
 			int z = Mathf.FloorToInt(hitInfo.point.z /tileMap.tileSize);

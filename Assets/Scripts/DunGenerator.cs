@@ -154,7 +154,7 @@ public class DunGenerator : MonoBehaviour
 			if (c.Width > 6 && c.Height > 6) {
 				
 				
-				meshRender.renderer.material.color = new Color (1, 0, 0, 1);
+				meshRender.GetComponent<Renderer>().material.color = new Color (1, 0, 0, 1);
 			}
 			
 			

@@ -39,7 +39,7 @@ public class Bomb : MonoBehaviour
 
 	void OnTriggerExit2D(Collider2D other)
 	{
-		transform.collider2D.isTrigger = false;
+		transform.GetComponent<Collider2D>().isTrigger = false;
 	}
 	public void Expode ()
 	{

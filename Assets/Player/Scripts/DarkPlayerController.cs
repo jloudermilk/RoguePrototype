@@ -21,7 +21,7 @@ public class DarkPlayerController : MonoBehaviour {
 	}
 	void FixedUpdate () {
 		targetVelocity = new Vector2( Input.GetAxis("Horizontal"+ PlayerNum.ToString()), -Input.GetAxis("Vertical"+ PlayerNum.ToString()));
-		rigidbody2D.velocity=targetVelocity * PlayerSpeed;
+		GetComponent<Rigidbody2D>().velocity=targetVelocity * PlayerSpeed;
 		animator.SetFloat("SpeedX",targetVelocity.x);
 		animator.SetFloat("SpeedY",targetVelocity.y);
 
